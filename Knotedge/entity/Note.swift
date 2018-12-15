@@ -8,15 +8,13 @@
 
 import Foundation
 class Note {
-    
-    var id: Int
+    var id: Int = 0
     var title: String
     var content: String
     var date_create: String
     var date_edit: String
     
-    init (id: Int, title: String, content: String, date_create: String, date_edit: String) {
-        self.id=id
+    init (title: String, content: String, date_create: String, date_edit: String) {
         self.title=title
         self.content=content
         self.date_edit=date_edit

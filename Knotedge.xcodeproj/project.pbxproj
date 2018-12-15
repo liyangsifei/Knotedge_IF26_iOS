@@ -8,6 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		9190972F21C52C76008BC4EA /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9190972E21C52C76008BC4EA /* SQLite.framework */; };
+		9190973121C5851F008BC4EA /* Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9190973021C5851F008BC4EA /* Object.swift */; };
+		9190973321C5852E008BC4EA /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9190973221C5852E008BC4EA /* Person.swift */; };
+		9190973521C58538008BC4EA /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9190973421C58538008BC4EA /* Event.swift */; };
+		9190973721C5860E008BC4EA /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9190973621C5860E008BC4EA /* Place.swift */; };
+		9190973921C58626008BC4EA /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9190973821C58626008BC4EA /* Profile.swift */; };
+		9190973C21C58642008BC4EA /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9190973B21C58642008BC4EA /* Tag.swift */; };
+		9190973E21C5877B008BC4EA /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9190973D21C5877B008BC4EA /* Book.swift */; };
+		9190974021C5A270008BC4EA /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9190973F21C5A270008BC4EA /* TableViewController.swift */; };
 		91A6728721A4082500808C1A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A6728621A4082500808C1A /* AppDelegate.swift */; };
 		91A6728921A4082500808C1A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A6728821A4082500808C1A /* ViewController.swift */; };
 		91A6728C21A4082500808C1A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 91A6728A21A4082500808C1A /* Main.storyboard */; };
@@ -51,6 +59,14 @@
 /* Begin PBXFileReference section */
 		9190972B21C52B7D008BC4EA /* SQLite.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = SQLite.framework.dSYM; path = Carthage/Build/iOS/SQLite.framework.dSYM; sourceTree = "<group>"; };
 		9190972E21C52C76008BC4EA /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = Carthage/Build/iOS/SQLite.framework; sourceTree = "<group>"; };
+		9190973021C5851F008BC4EA /* Object.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Object.swift; sourceTree = "<group>"; };
+		9190973221C5852E008BC4EA /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
+		9190973421C58538008BC4EA /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		9190973621C5860E008BC4EA /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
+		9190973821C58626008BC4EA /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
+		9190973B21C58642008BC4EA /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
+		9190973D21C5877B008BC4EA /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
+		9190973F21C5A270008BC4EA /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		91A6728321A4082500808C1A /* Knotedge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Knotedge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		91A6728621A4082500808C1A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		91A6728821A4082500808C1A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -102,6 +118,21 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		9190973A21C5862D008BC4EA /* entity */ = {
+			isa = PBXGroup;
+			children = (
+				9190973821C58626008BC4EA /* Profile.swift */,
+				9190973021C5851F008BC4EA /* Object.swift */,
+				9190973221C5852E008BC4EA /* Person.swift */,
+				9190973421C58538008BC4EA /* Event.swift */,
+				9190973621C5860E008BC4EA /* Place.swift */,
+				9190973D21C5877B008BC4EA /* Book.swift */,
+				91EE783F21C049D300646ECE /* Note.swift */,
+				9190973B21C58642008BC4EA /* Tag.swift */,
+			);
+			path = entity;
+			sourceTree = "<group>";
+		};
 		91A6727A21A4082500808C1A = {
 			isa = PBXGroup;
 			children = (
@@ -126,13 +157,14 @@
 		91A6728521A4082500808C1A /* Knotedge */ = {
 			isa = PBXGroup;
 			children = (
+				9190973A21C5862D008BC4EA /* entity */,
 				91A6728621A4082500808C1A /* AppDelegate.swift */,
 				91A6728821A4082500808C1A /* ViewController.swift */,
 				91A6728A21A4082500808C1A /* Main.storyboard */,
 				91A6728D21A4082700808C1A /* Assets.xcassets */,
 				91A6728F21A4082700808C1A /* LaunchScreen.storyboard */,
 				91A6729221A4082700808C1A /* Info.plist */,
-				91EE783F21C049D300646ECE /* Note.swift */,
+				9190973F21C5A270008BC4EA /* TableViewController.swift */,
 			);
 			path = Knotedge;
 			sourceTree = "<group>";
@@ -309,8 +341,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9190973321C5852E008BC4EA /* Person.swift in Sources */,
+				9190973921C58626008BC4EA /* Profile.swift in Sources */,
 				91A6728921A4082500808C1A /* ViewController.swift in Sources */,
 				91A6728721A4082500808C1A /* AppDelegate.swift in Sources */,
+				9190973121C5851F008BC4EA /* Object.swift in Sources */,
+				9190973521C58538008BC4EA /* Event.swift in Sources */,
+				9190974021C5A270008BC4EA /* TableViewController.swift in Sources */,
+				9190973C21C58642008BC4EA /* Tag.swift in Sources */,
+				9190973721C5860E008BC4EA /* Place.swift in Sources */,
+				9190973E21C5877B008BC4EA /* Book.swift in Sources */,
 				91EE784021C049D300646ECE /* Note.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
