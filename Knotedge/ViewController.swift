@@ -65,9 +65,7 @@ class ViewController: UIViewController {
         catch {
             print (error)
         }
-        
     }
-    
     
     func createTables() {
         if !self.tableExist {
@@ -138,6 +136,10 @@ class ViewController: UIViewController {
             }
         }
 
+    }
+    
+    @IBAction func experiment(){
+        
     }
 
 }

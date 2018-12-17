@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="logo_knotedge" translatesAutoresizingMaskIntoConstraints="NO" id="QCe-Tr-ri9">
-                                <rect key="frame" x="6.6685314685314552" y="153.5272727272727" width="360" height="360"/>
+                                <rect key="frame" x="7" y="154" width="360" height="360"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>
@@ -33,6 +33,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="logo_knotedge" width="182.22721862792969" height="182.22721862792969"/>
+        <image name="logo_knotedge" width="324" height="324"/>
     </resources>
 </document>
