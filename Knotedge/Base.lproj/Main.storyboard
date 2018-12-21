@@ -355,8 +355,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
-                                    <action selector="DateTouchUpAction:" destination="aZo-k1-OzJ" eventType="touchUpInside" id="4kf-SC-6mr"/>
-                                    <action selector="beginChange:" destination="aZo-k1-OzJ" eventType="editingDidBegin" id="JaG-qo-E1i"/>
+                                    <action selector="touchDown:" destination="aZo-k1-OzJ" eventType="touchDown" id="c4V-wA-w4g"/>
                                 </connections>
                             </textField>
                         </subviews>
@@ -366,7 +365,7 @@
                     <tabBarItem key="tabBarItem" title="Create Class" id="xcf-CC-49h"/>
                     <connections>
                         <outlet property="addBarItem" destination="UZc-2V-jp0" id="9pF-bw-P9e"/>
-                        <outlet property="fieldDate" destination="3Az-8q-vPZ" id="hRh-dv-shc"/>
+                        <outlet property="fieldDate" destination="0Gl-bc-lXD" id="avm-sL-egE"/>
                         <outlet property="fieldDescription" destination="OXD-Jd-BmV" id="QFM-Bb-YSi"/>
                         <outlet property="fieldName" destination="Srv-7q-fXr" id="ZT1-n2-9Aw"/>
                         <outlet property="toolBar" destination="KpP-F5-uGp" id="xoc-P3-van"/>

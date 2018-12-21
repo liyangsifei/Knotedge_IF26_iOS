@@ -10,46 +10,45 @@ import UIKit
 
 class AddClassViewController: UIViewController {
 
-    
     @IBOutlet weak var toolBar: UIToolbar!
     @IBOutlet weak var fieldName: UITextField!
-    
+    @IBOutlet weak var fieldDescription: UITextField!
     @IBOutlet weak var fieldDate: UITextField!
     
-    @IBOutlet weak var fieldDescription: UITextField!
+    var datePicker = UIDatePicker()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureToolBar()
-        // Do any additional setup after loading the view.
+        createDatePicker()
+    }
+    @IBAction func touchDown(_ sender: UITextField) {
+        
     }
     
-    @IBAction func DateTouchUpAction(_ sender: UITextField) {
-        let datePicker = UIDatePicker(frame: CGRect(x:0, y:0, width:320, height:216))
-        
-        datePicker.locale = Locale(identifier: "fr_EN")
-        
-        datePicker.addTarget(self, action: #selector(dateChanged), for: .valueChanged)
-        self.view.addSubview(datePicker)
+    func createDatePicker() {
+        datePicker.locale = NSLocale(localeIdentifier: "fr_FR") as Locale
+        datePicker.timeZone = NSTimeZone.system
+        datePicker.datePickerMode = UIDatePicker.Mode.date
+        datePicker.addTarget(self, action: #selector(getDate), for: UIControl.Event.valueChanged)
+        datePicker.layer.backgroundColor = UIColor.white.cgColor
+        datePicker.layer.masksToBounds = true
+        fieldDate.inputView = datePicker
     }
     
-    @IBAction func beginChange(_ sender: Any) {
-    }
-    @objc func dateChanged(datePicker : UIDatePicker){
-        
+    @objc func getDate(datePicker: UIDatePicker) {
         let formatter = DateFormatter()
-        
+        let date = datePicker.date
         formatter.dateFormat = "dd/MM/yyyy"
-        print(formatter.string(from: datePicker.date))
+        let dateStr = formatter.string(from: date)
+        self.fieldDate.text = dateStr
     }
-    
     
     @IBOutlet weak var addBarItem: UIBarButtonItem!
     func configureToolBar () {
         let toolbarButtonItem = [addBarItem]
         toolBar.setItems(toolbarButtonItem as! [UIBarButtonItem], animated: true);
     }
-    
     @IBAction func addAction(_ sender: UIBarButtonItem) {
         print("add action")
     }
