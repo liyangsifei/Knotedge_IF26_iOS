@@ -24,16 +24,26 @@ class AddClassViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @IBAction func DateTouchUpAction(_ sender: UITextField) {
+        let datePicker = UIDatePicker(frame: CGRect(x:0, y:0, width:320, height:216))
+        
+        datePicker.locale = Locale(identifier: "fr_EN")
+        
+        datePicker.addTarget(self, action: #selector(dateChanged), for: .valueChanged)
+        self.view.addSubview(datePicker)
     }
-    */
+    
+    @IBAction func beginChange(_ sender: Any) {
+    }
+    @objc func dateChanged(datePicker : UIDatePicker){
+        
+        let formatter = DateFormatter()
+        
+        formatter.dateFormat = "dd/MM/yyyy"
+        print(formatter.string(from: datePicker.date))
+    }
+    
+    
     @IBOutlet weak var addBarItem: UIBarButtonItem!
     func configureToolBar () {
         let toolbarButtonItem = [addBarItem]

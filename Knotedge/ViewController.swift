@@ -11,6 +11,7 @@ import SQLite
 
 class ViewController: UIViewController {
     
+    @IBOutlet weak var field: UILabel!
     var database:Connection!
     let TABLE_PROFILE = Table("profile")
     let PROFILE_ID =  Expression<Int>("profile_id")
@@ -54,8 +55,13 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         // Connecxion to the BD
+        connextionBD()
+        createTables()
+        count()
+    }
+    
+    func connextionBD () {
         do {
             let documentDirectory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
             let fileUrl = documentDirectory.appendingPathComponent("knotedge").appendingPathExtension("sqlite3")
@@ -71,7 +77,7 @@ class ViewController: UIViewController {
         if !self.tableExist {
             self.tableExist = true
             
-            let dropTableProfile = self.TABLE_PROFILE.drop(ifExists:true)
+            //let dropTableProfile = self.TABLE_PROFILE.drop(ifExists:true)
             
             let createTableProfile = self.TABLE_PROFILE.create { table in
                 table.column(self.PROFILE_ID, primaryKey: true)
@@ -119,7 +125,7 @@ class ViewController: UIViewController {
             }
             
             do {
-                try self.database.run(dropTableProfile)
+                //try self.database.run(dropTableProfile)
                 try self.database.run(createTableProfile)
                 try self.database.run(dropTableObject)
                 try self.database.run(createTableObject)
@@ -138,8 +144,40 @@ class ViewController: UIViewController {
 
     }
     
-    @IBAction func experiment(){
-        
+    func count () {
+        var resultat = 0
+        do {
+            resultat = try self.database.scalar(TABLE_TAG.count)
+            print ("table tag = ", resultat)
+        }
+        catch {
+            print (error)
+            resultat = -1
+        }
+        self.field.text = String(resultat)
+    }
+    
+    func insertTag () {
+        let insert1 = self.TABLE_TAG.insert(self.TAG_ID <- counting()+1, self.TAG_NAME <- "tag1")
+        do {
+            try self.database.run(insert1)
+            print ("Insert1 ok")
+        } catch {
+            print (error)
+        }
+    }
+    
+    func counting() -> Int {
+        var resultat = 0
+        do {
+            resultat = try self.database.scalar(TABLE_TAG.count)
+            print ("count1 = ", resultat)
+        }
+        catch {
+            print (error)
+            resultat = -1
+        }
+        return resultat
     }
 
 }

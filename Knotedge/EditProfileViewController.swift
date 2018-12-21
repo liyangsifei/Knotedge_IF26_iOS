@@ -1,34 +1,33 @@
 //
-//  AddNoteViewController.swift
+//  EditProfileViewController.swift
 //  Knotedge
 //
-//  Created by Sifei LI on 17/12/2018.
+//  Created by Sifei LI on 18/12/2018.
 //  Copyright © 2018 if26. All rights reserved.
 //
 
 import UIKit
 
-class AddNoteViewController: UIViewController {
+class EditProfileViewController: UIViewController {
 
-    @IBOutlet weak var addBarItem: UIBarButtonItem!
-    @IBOutlet weak var toolBar: UIToolbar!
-    @IBOutlet weak var titleField: UITextField!
-    @IBOutlet weak var textField: UITextView!
+    @IBOutlet weak var buttonImageProfile: UIButton!
+    @IBOutlet weak var fieldLastName: UITextField!
+    @IBOutlet weak var fieldFirstName: UITextField!
+    @IBOutlet weak var fieldEmail: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        configureToolBar()
-    }
-    func configureToolBar () {
-        let toolbarButtonItem = [addBarItem]
-        toolBar.setItems(toolbarButtonItem as! [UIBarButtonItem], animated: true);
     }
     
-    @IBAction func AddAction(_ sender: UIBarButtonItem) {
-        print("add note")
+    @IBAction func actionButtonImage(_ sender: Any) {
     }
     
+    @IBAction func ActionDone(_ sender: UIBarButtonItem) {
+    }
+    
+    @IBAction func ActionCancel(_ sender: UIBarButtonItem) {
+    }
     /*
     // MARK: - Navigation
 
