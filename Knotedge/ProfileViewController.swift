@@ -11,6 +11,9 @@ import SQLite
 
 class ProfileViewController: UIViewController {
     
+    @IBOutlet weak var editProfileBtn: UIButton!
+    @IBOutlet weak var profilePhoto: UIImageView!
+    @IBOutlet weak var profileName: UILabel!
     
     @IBOutlet weak var countNoteBtn: UIButton!
     @IBOutlet weak var countClassBtn: UIButton!
@@ -23,7 +26,7 @@ class ProfileViewController: UIViewController {
     let PROFILE_FIRST_NAME = Expression<String>("profile_first_name")
     let PROFILE_LAST_NAME = Expression<String>("profile_last_name")
     let PROFILE_EMAIL = Expression<String>("profile_email")
-    let PROFILE_PHOTO = Expression<Blob>("profile_photo")
+    let PROFILE_PHOTO = Expression<String>("profile_photo")
     
     let TABLE_OBJECT = Table("object")
     let OBJECT_ID =  Expression<Int>("object_id")
@@ -62,6 +65,10 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         connextionBD()
         createTables()
+        setDefaultUser()
+        counts()
+    }
+    override func viewDidAppear(_ animated: Bool) {
         counts()
     }
     
@@ -116,8 +123,6 @@ class ProfileViewController: UIViewController {
         if !self.tableExist {
             self.tableExist = true
             
-            //let dropTableProfile = self.TABLE_PROFILE.drop(ifExists:true)
-            
             let createTableProfile = self.TABLE_PROFILE.create { table in
                 table.column(self.PROFILE_ID, primaryKey: true)
                 table.column(self.PROFILE_FIRST_NAME)
@@ -125,7 +130,6 @@ class ProfileViewController: UIViewController {
                 table.column(self.PROFILE_EMAIL)
                 table.column(self.PROFILE_PHOTO)
             }
-            //let createProfile = "CREATE TABLE IF NOT EXISTS \(TABLE_PROFILE) (\(PROFILE_ID) INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, \(PROFILE_FIRST_NAME) TEXT, \(PROFILE_LAST_NAME) TEXT, \(PROFILE_EMAIL) TEXT, \(PROFILE_PHOTO) TEXT);"
             let createTableObject = self.TABLE_OBJECT.create { table in
                 table.column(self.OBJECT_ID, primaryKey: true)
                 table.column(self.OBJECT_NAME)
@@ -133,8 +137,6 @@ class ProfileViewController: UIViewController {
                 table.column(self.OBJECT_DESCRIPTION)
                 table.column(self.OBJECT_TYPE)
             }
-            //let createObject = "CREATE TABLE IF NOT EXISTS \(TABLE_OBJECT) (\(OBJECT_ID) INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, \(OBJECT_NAME) TEXT, \(OBJECT_DATE) TEXT, \(OBJECT_DESCRIPTION) TEXT, \(OBJECT_TYPE) TEXT);"
-            
             let createTableBook = self.TABLE_BOOK.create { table in
                 table.column(self.BOOK_ID, primaryKey: true)
                 table.column(self.BOOK_NAME)
@@ -142,13 +144,10 @@ class ProfileViewController: UIViewController {
                 table.column(self.BOOK_DATE)
                 table.column(self.BOOK_DESCRIPTION)
             }
-            
             let createTableTag = self.TABLE_TAG.create { table in
                 table.column(self.TAG_ID, primaryKey: true)
                 table.column(self.TAG_NAME)
             }
-            
-            
             let createTableNote = self.TABLE_NOTE.create { table in
                 table.column(self.NOTE_ID, primaryKey: true)
                 table.column(self.NOTE_TITLE)
@@ -158,22 +157,56 @@ class ProfileViewController: UIViewController {
             }
             
             do {
-                //try self.database.run(dropTableProfile)
                 try self.database.run(createTableProfile)
-                //try self.database.execute(createProfile)
-                //try self.database.run(dropTableObject)
                 try self.database.run(createTableObject)
-                //try self.database.execute(createObject)
-                //try self.database.run(dropTableBook)
                 try self.database.run(createTableBook)
-                //try self.database.run(dropTableTag)
                 try self.database.run(createTableTag)
-                //try self.database.run(dropTableNote)
                 try self.database.run(createTableNote)
             }
             catch {
                 print (error)
             }
         }
+    }
+    
+    func setDefaultUser() {
+        var nbUser = 0
+        do {
+            nbUser = try self.database.scalar(TABLE_PROFILE.count)
+        }
+        catch {
+            print (error)
+        }
+        if nbUser==0 {
+            let fName = "SIFEI"
+            let lName = "LI"
+            let email = "??"
+            let img: UIImage = UIImage(named:"image")!
+            let imgData:NSData = img.pngData()! as NSData
+            let strBase64 = imgData.base64EncodedString(options: .lineLength64Characters)
+            let insert = self.TABLE_PROFILE.insert(self.PROFILE_FIRST_NAME <- fName, self.PROFILE_LAST_NAME <- lName, self.PROFILE_EMAIL <- email, self.PROFILE_PHOTO <- strBase64)
+            do {
+                try self.database.run(insert)
+                print ("profile inserted")
+            } catch {
+                print (error)
+            }
+        }
+        do {
+            let users = try self.database.prepare(self.TABLE_PROFILE)
+            for u in users {
+                let fName = u[self.PROFILE_FIRST_NAME]
+                let lName = u[self.PROFILE_LAST_NAME]
+                let photoStr = u[self.PROFILE_PHOTO]
+                let dataDecoded:NSData = NSData(base64Encoded: photoStr, options: .ignoreUnknownCharacters)!
+                if let decodedImage = UIImage(data:dataDecoded as Data) {
+                    self.profilePhoto.image = decodedImage
+                }
+                self.profileName.text = fName + " " + lName
+            }
+        } catch{
+            print(error)
+        }
+        
     }
 }
