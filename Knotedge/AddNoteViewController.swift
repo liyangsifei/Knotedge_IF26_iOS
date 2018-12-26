@@ -47,17 +47,17 @@ class AddNoteViewController: UIViewController {
         }
     }
     
-    
-    
     func configureToolBar () {
         let toolbarButtonItem = [cancelBarItem, spaceBarItem, addBarItem]
         toolBar.setItems(toolbarButtonItem as? [UIBarButtonItem], animated: true);
     }
     
     @IBAction func cancelAction(_ sender: UIBarButtonItem) {
+        performSegue(withIdentifier: "back2main", sender: self)
     }
     @IBAction func addAction(_ sender: UIBarButtonItem) {
         insertNote()
+        performSegue(withIdentifier: "back2main", sender: self)
     }
     
     func connextionBD () {
@@ -69,6 +69,11 @@ class AddNoteViewController: UIViewController {
         }
         catch {
             print (error)
+        }
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "back2main" {
+            _ = segue.destination as! MainTabBarController
         }
     }
 }

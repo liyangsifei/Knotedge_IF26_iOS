@@ -92,16 +92,22 @@ class AddClassViewController: UIViewController {
         toolBar.setItems(toolbarButtonItem as? [UIBarButtonItem], animated: true);
     }
     @IBAction func cancelAction(_ sender: UIBarButtonItem) {
-        print("cancel action")
+        performSegue(withIdentifier: "back2main", sender: self)
     }
     @IBAction func addAction(_ sender: UIBarButtonItem) {
         print("add action")
         switch typeSegment.selectedSegmentIndex {
         case 0:
             insertBook()
-            
+            performSegue(withIdentifier: "back2main", sender: self)
         default:
             insertClass()
+            performSegue(withIdentifier: "back2main", sender: self)
+        }
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "back2main" {
+            _ = segue.destination as! MainTabBarController
         }
     }
 }
