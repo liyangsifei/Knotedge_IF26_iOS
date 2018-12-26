@@ -21,14 +21,12 @@
 		9190974E21C85196008BC4EA /* AddNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9190974D21C85196008BC4EA /* AddNoteViewController.swift */; };
 		9190975021C90536008BC4EA /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9190974F21C90535008BC4EA /* SecondViewController.swift */; };
 		91A6728721A4082500808C1A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A6728621A4082500808C1A /* AppDelegate.swift */; };
-		91A6728921A4082500808C1A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A6728821A4082500808C1A /* ViewController.swift */; };
 		91A6728C21A4082500808C1A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 91A6728A21A4082500808C1A /* Main.storyboard */; };
 		91A6728E21A4082700808C1A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91A6728D21A4082700808C1A /* Assets.xcassets */; };
 		91A6729121A4082700808C1A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 91A6728F21A4082700808C1A /* LaunchScreen.storyboard */; };
 		91A6729C21A4082800808C1A /* KnotedgeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A6729B21A4082800808C1A /* KnotedgeTests.swift */; };
 		91A672A721A4082800808C1A /* KnotedgeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A672A621A4082800808C1A /* KnotedgeUITests.swift */; };
 		91EE784021C049D300646ECE /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91EE783F21C049D300646ECE /* Note.swift */; };
-		91F20DE021C924A300861A5E /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F20DDF21C924A300861A5E /* EditProfileViewController.swift */; };
 		91F20DE221C95C4500861A5E /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F20DE121C95C4500861A5E /* ProfileViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -79,7 +77,6 @@
 		9190974F21C90535008BC4EA /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		91A6728321A4082500808C1A /* Knotedge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Knotedge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		91A6728621A4082500808C1A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		91A6728821A4082500808C1A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		91A6728B21A4082500808C1A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		91A6728D21A4082700808C1A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		91A6729021A4082700808C1A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -91,7 +88,6 @@
 		91A672A621A4082800808C1A /* KnotedgeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnotedgeUITests.swift; sourceTree = "<group>"; };
 		91A672A821A4082800808C1A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		91EE783F21C049D300646ECE /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
-		91F20DDF21C924A300861A5E /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		91F20DE121C95C4500861A5E /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -171,7 +167,6 @@
 			children = (
 				9190973A21C5862D008BC4EA /* entity */,
 				91A6728621A4082500808C1A /* AppDelegate.swift */,
-				91A6728821A4082500808C1A /* ViewController.swift */,
 				91A6728A21A4082500808C1A /* Main.storyboard */,
 				91A6728D21A4082700808C1A /* Assets.xcassets */,
 				91A6728F21A4082700808C1A /* LaunchScreen.storyboard */,
@@ -181,7 +176,6 @@
 				9190974B21C810EE008BC4EA /* AddClassViewController.swift */,
 				9190974D21C85196008BC4EA /* AddNoteViewController.swift */,
 				9190974F21C90535008BC4EA /* SecondViewController.swift */,
-				91F20DDF21C924A300861A5E /* EditProfileViewController.swift */,
 				91F20DE121C95C4500861A5E /* ProfileViewController.swift */,
 			);
 			path = Knotedge;
@@ -362,14 +356,12 @@
 				9190975021C90536008BC4EA /* SecondViewController.swift in Sources */,
 				9190973321C5852E008BC4EA /* Person.swift in Sources */,
 				9190973921C58626008BC4EA /* Profile.swift in Sources */,
-				91A6728921A4082500808C1A /* ViewController.swift in Sources */,
 				91A6728721A4082500808C1A /* AppDelegate.swift in Sources */,
 				91F20DE221C95C4500861A5E /* ProfileViewController.swift in Sources */,
 				9190973121C5851F008BC4EA /* Object.swift in Sources */,
 				9190973521C58538008BC4EA /* Event.swift in Sources */,
 				9190974821C706A8008BC4EA /* AllClassesViewController.swift in Sources */,
 				9190974E21C85196008BC4EA /* AddNoteViewController.swift in Sources */,
-				91F20DE021C924A300861A5E /* EditProfileViewController.swift in Sources */,
 				9190973C21C58642008BC4EA /* Tag.swift in Sources */,
 				9190973721C5860E008BC4EA /* Place.swift in Sources */,
 				9190973E21C5877B008BC4EA /* Book.swift in Sources */,

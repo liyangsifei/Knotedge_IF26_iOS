@@ -7,36 +7,68 @@
 //
 
 import UIKit
+import SQLite
 
 class AddNoteViewController: UIViewController {
 
-    @IBOutlet weak var addBarItem: UIBarButtonItem!
+    var database: Connection!
+    let profileView = ProfileViewController()
+    
     @IBOutlet weak var toolBar: UIToolbar!
+    @IBOutlet weak var addBarItem: UIBarButtonItem!
+    @IBOutlet weak var cancelBarItem: UIBarButtonItem!
+    @IBOutlet weak var spaceBarItem: UIBarButtonItem!
+    
     @IBOutlet weak var titleField: UITextField!
     @IBOutlet weak var textField: UITextView!
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        connextionBD()
         configureToolBar()
     }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(false)
+    }
+    
+    func insertNote() {
+        let title = titleField.text!
+        let content = textField.text!
+        let date = NSDate()
+        let dateFormat = DateFormatter()
+        dateFormat.dateFormat = "dd/MM/yyyy"
+        let currentDate = dateFormat.string(from: date as Date) as String
+        
+        let insert = profileView.TABLE_NOTE.insert(profileView.NOTE_TITLE <- title, profileView.NOTE_CONTENT <- content, profileView.NOTE_CREATE_DATE <- currentDate, profileView.NOTE_EDIT_DATE <- currentDate)
+        do {
+            try self.database.run(insert)
+            print ("note inserted")
+        } catch {
+            print (error)
+        }
+    }
+    
+    
+    
     func configureToolBar () {
-        let toolbarButtonItem = [addBarItem]
-        toolBar.setItems(toolbarButtonItem as! [UIBarButtonItem], animated: true);
+        let toolbarButtonItem = [cancelBarItem, spaceBarItem, addBarItem]
+        toolBar.setItems(toolbarButtonItem as? [UIBarButtonItem], animated: true);
     }
     
-    @IBAction func AddAction(_ sender: UIBarButtonItem) {
-        print("add note")
+    @IBAction func cancelAction(_ sender: UIBarButtonItem) {
+    }
+    @IBAction func addAction(_ sender: UIBarButtonItem) {
+        insertNote()
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func connextionBD () {
+        do {
+            let documentDirectory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+            let fileUrl = documentDirectory.appendingPathComponent("knotedge").appendingPathExtension("sqlite3")
+            let base = try Connection(fileUrl.path)
+            self.database = base;
+        }
+        catch {
+            print (error)
+        }
     }
-    */
-
 }
