@@ -9,7 +9,7 @@
 import UIKit
 import SQLite
 
-class AddClassViewController: UIViewController {
+class AddClassViewController: UIViewController, UIScrollViewDelegate {
 
     var database:Connection!
     let profileView = ProfileViewController()
@@ -24,10 +24,19 @@ class AddClassViewController: UIViewController {
     
     @IBOutlet weak var addTagButton: UIButton!
     @IBOutlet weak var addRelationButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         connextionBD()
         configureToolBar()
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        subscribeToKeyboardNotifications()
+    }
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        unsubscribeFromKeyboardNotifications()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -73,6 +82,27 @@ class AddClassViewController: UIViewController {
         }
     }
     
+    //Listeners of the keyboard Event
+    @objc func keyboardWillShow(_ notification: Notification) {
+        view.frame.origin.y = -getKeyboardHeight(notification)/2
+    }
+    func getKeyboardHeight(_ notification: Notification) -> CGFloat {
+        let userInfo = notification.userInfo
+        let keyboardSize = userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue
+        return keyboardSize.cgRectValue.height
+    }
+    func subscribeToKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    func unsubscribeFromKeyboardNotifications() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+    }
+    @objc func keyboardWillHide(_ notification: Notification) {
+        view.frame.origin.y = 0
+    }
+    
+    //connexion to BD
     func connextionBD () {
         do {
             let documentDirectory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
@@ -85,6 +115,7 @@ class AddClassViewController: UIViewController {
         }
     }
     
+    //Tool Bar
     @IBOutlet weak var cancelBarItem: UIBarButtonItem!
     @IBOutlet weak var addBarItem: UIBarButtonItem!
     func configureToolBar () {
@@ -105,6 +136,7 @@ class AddClassViewController: UIViewController {
             performSegue(withIdentifier: "back2main", sender: self)
         }
     }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "back2main" {
             _ = segue.destination as! MainTabBarController

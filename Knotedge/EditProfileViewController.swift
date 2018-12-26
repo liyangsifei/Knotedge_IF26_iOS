@@ -20,27 +20,40 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     @IBOutlet weak var fieldPhotoBtn: UIButton!
     var profileId = 0
     var image = UIImage()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         connextionBD()
         getProfile()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        subscribeToKeyboardNotifications()
+    }
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        unsubscribeFromKeyboardNotifications()
+    }
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(false)
     }
     
+    //Photo Button to open the library
     @IBAction func changePhotoAction(_ sender: UIButton) {
         let imgPicker = UIImagePickerController()
         imgPicker.delegate = self
+        imgPicker.sourceType = .photoLibrary
         present(imgPicker, animated: true, completion: nil)
-        
     }
 
+    //Button Done
     @IBAction func doneAction(_ sender: UIButton) {
         updateProfile()
     }
     
+    //Edit profile to BD
     func updateProfile() {
         let imgData:NSData = self.image.pngData()! as NSData
         let strBase64:String = imgData.base64EncodedString(options: .lineLength64Characters)
@@ -58,6 +71,7 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
             print(error)
         }
     }
+    //Load profile from BD
     func getProfile() {
         
         do {
@@ -81,6 +95,39 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
             print(error)
         }
     }
+    
+    //Take image from library
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            self.image = pickedImage
+            fieldPhotoBtn.setBackgroundImage(self.image, for: UIControl.State.normal)
+        }
+        dismiss(animated: true, completion: nil)
+    }
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    //Listeners of the keyboard Event
+    @objc func keyboardWillShow(_ notification: Notification) {
+        view.frame.origin.y = -getKeyboardHeight(notification)
+    }
+    func getKeyboardHeight(_ notification: Notification) -> CGFloat {
+        let userInfo = notification.userInfo
+        let keyboardSize = userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue
+        return keyboardSize.cgRectValue.height
+    }
+    func subscribeToKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    func unsubscribeFromKeyboardNotifications() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+    }
+    @objc func keyboardWillHide(_ notification: Notification) {
+        view.frame.origin.y = 0
+    }
+    //Connexion to DataBase
     func connextionBD () {
         do {
             let documentDirectory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)

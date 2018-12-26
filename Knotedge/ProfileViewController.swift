@@ -69,6 +69,7 @@ class ProfileViewController: UIViewController {
         counts()
     }
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         counts()
     }
     
