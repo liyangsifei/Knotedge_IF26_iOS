@@ -68,7 +68,6 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     }
     //Load profile from BD
     func getProfile() {
-        
         do {
             let users = try self.database.prepare(profileView.TABLE_PROFILE)
             for u in users {

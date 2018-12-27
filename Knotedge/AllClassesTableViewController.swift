@@ -27,6 +27,12 @@ class AllClassesTableViewController: UITableViewController {
     var placeList: [Place] = []
     var objectList: [Object] = []
     var allClassList: [Object] = []
+    var selectedObjectId = 0
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        loadAllClasses()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -97,6 +103,26 @@ class AllClassesTableViewController: UITableViewController {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch typeSection[indexPath.section] {
+        case self.PERSON :
+            self.selectedObjectId = personList[indexPath.row].id
+            performSegue(withIdentifier: "detailClass", sender: self)
+        case self.EVENT :
+            self.selectedObjectId = eventList[indexPath.row].id
+            performSegue(withIdentifier: "detailClass", sender: self)
+        case self.PLACE :
+            self.selectedObjectId = placeList[indexPath.row].id
+            performSegue(withIdentifier: "detailClass", sender: self)
+        case self.OBJECT :
+            self.selectedObjectId = objectList[indexPath.row].id
+            performSegue(withIdentifier: "detailClass", sender: self)
+        default:
+            break
+        }
+        
+    }
+    
 
     /*
     // Override to support conditional editing of the table view.
@@ -105,18 +131,47 @@ class AllClassesTableViewController: UITableViewController {
         return true
     }
     */
-
-    /*
+ 
     // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source
+            var idDel = 0
+            switch typeSection[indexPath.section] {
+            case self.PERSON :
+                idDel = personList[indexPath.row].id
+            case self.EVENT :
+                idDel = eventList[indexPath.row].id
+            case self.PLACE :
+                idDel = placeList[indexPath.row].id
+            case self.OBJECT :
+                idDel = objectList[indexPath.row].id
+            default:
+                break
+            }
+            deleteObject(id: idDel)
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+        }
     }
-    */
+    
+    override func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
+        return "Delete?"
+    }
+    
+    func deleteObject(id: Int) {
+        let del = profileView.TABLE_OBJECT.filter(profileView.OBJECT_ID == id)
+        do {
+            try self.database.run(del.delete())
+        } catch {
+            print(error)
+        }
+        personList = []
+        eventList = []
+        placeList = []
+        objectList = []
+        loadAllClasses()
+    }
 
     /*
     // Override to support rearranging the table view.
@@ -133,15 +188,17 @@ class AllClassesTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "detailClass" {
+            let destination = segue.destination as! DetailObjectViewController
+            destination.idObject = self.selectedObjectId
+        }
     }
-    */
+    
 
     func loadAllClasses() {
         do {

@@ -15,9 +15,12 @@ class AllTagsCollectionViewController: UICollectionViewController {
 
     var database:Connection!
     let profileView = ProfileViewController()
+    
+    var tagList: [Tag] = []
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        connextionBD()
+        loadAllTags()
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -46,18 +49,18 @@ class AllTagsCollectionViewController: UICollectionViewController {
 
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of items
-        return 0
+        return self.tagList.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
-    
-        // Configure the cell
-    
+        let lab = UILabel()
+        lab.textAlignment = .center
+        lab.font = UIFont.systemFont(ofSize: 12)
+        lab.text = self.tagList[indexPath.row].name
+        cell.contentView.addSubview(lab)
         return cell
     }
-
     // MARK: UICollectionViewDelegate
 
     /*
@@ -67,12 +70,11 @@ class AllTagsCollectionViewController: UICollectionViewController {
     }
     */
 
-    /*
+    
     // Uncomment this method to specify if the specified item should be selected
     override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         return true
     }
-    */
 
     /*
     // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
@@ -88,7 +90,48 @@ class AllTagsCollectionViewController: UICollectionViewController {
     
     }
      */
+    func loadAllTags() {
+        do {
+            let list = try self.database.prepare(profileView.TABLE_TAG)
+            for item in list {
+                let t = Tag(name: item[profileView.TAG_NAME])
+                t.id = item[profileView.TAG_ID]
+                self.tagList.append(t) 
+            }
+        } catch{
+            print(error)
+        }
+    }
     
+    func addTag(name: String) {
+        let insert = profileView.TABLE_TAG.insert(profileView.TAG_NAME <- name)
+        do {
+            try self.database.run(insert)
+            print ("tag inserted")
+        } catch {
+            print (error)
+        }
+    }
+    
+    @IBAction func addTagAction(_ sender: UIBarButtonItem) {
+        let controller = UIAlertController(title: "New Tag", message: "", preferredStyle: UIAlertController.Style.alert)
+        var inputText: UITextField = UITextField();
+        let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default) {
+            action in controller.dismiss(animated: true, completion: nil)
+            self.addTag(name: inputText.text!)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel) {
+            action in controller.dismiss(animated: true, completion: nil)
+        }
+        controller.addAction(okAction)
+        controller.addAction(cancelAction)
+        controller.addTextField { (textField) in
+            inputText = textField
+            inputText.placeholder = "enter tag name"
+        }
+        self.present(controller, animated: true, completion: nil)
+    }
+        
     //connexion to BD
     func connextionBD () {
         do {
@@ -101,5 +144,6 @@ class AllTagsCollectionViewController: UICollectionViewController {
             print (error)
         }
     }
+
 
 }
