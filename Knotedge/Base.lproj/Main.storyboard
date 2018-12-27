@@ -158,6 +158,9 @@
                                     <segment title="Place"/>
                                     <segment title="Object"/>
                                 </segments>
+                                <connections>
+                                    <action selector="changeTypeAction:" destination="jTU-8W-98a" eventType="valueChanged" id="3Ak-cd-hti"/>
+                                </connections>
                             </segmentedControl>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Y63-aO-BXz">
                                 <rect key="frame" x="211" y="185" width="97" height="30"/>
@@ -202,6 +205,7 @@
                         <outlet property="fieldDate" destination="Y63-aO-BXz" id="BiR-8P-WLk"/>
                         <outlet property="fieldDescription" destination="VfS-cg-ESA" id="oFT-FN-UqC"/>
                         <outlet property="fieldName" destination="Ude-7I-E9I" id="zMl-6a-RL7"/>
+                        <outlet property="labelAuthor" destination="6c2-CA-jOF" id="1Ld-pe-RYo"/>
                         <outlet property="spaceBarItem" destination="8Gr-gV-KNE" id="9aN-8I-VY3"/>
                         <outlet property="toolBar" destination="UNe-PA-op0" id="OA6-7V-RSH"/>
                         <outlet property="typeSegment" destination="wSN-We-2m4" id="6t2-Wu-vJz"/>
@@ -1072,6 +1076,6 @@
         <image name="logo_knotedge" width="324" height="324"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="uTf-f4-wpN"/>
+        <segue reference="vzf-wc-SB4"/>
     </inferredMetricsTieBreakers>
 </document>

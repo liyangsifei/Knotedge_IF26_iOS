@@ -19,6 +19,7 @@ class AddClassViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var fieldDescription: UITextField!
     @IBOutlet weak var fieldDate: UITextField!
     @IBOutlet weak var fieldAuthor: UITextField!
+    @IBOutlet weak var labelAuthor: UILabel!
     
     @IBOutlet weak var spaceBarItem: UIBarButtonItem!
     
@@ -38,6 +39,21 @@ class AddClassViewController: UIViewController, UIScrollViewDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(false)
+    }
+    
+    @IBAction func changeTypeAction(_ sender: UISegmentedControl) {
+        switch self.typeSegment.selectedSegmentIndex {
+        case 0:
+            if self.fieldAuthor.isHidden {
+                self.labelAuthor.isHidden = false
+                self.fieldAuthor.isHidden = false
+            }
+        default:
+            if !self.fieldAuthor.isHidden {
+                self.fieldAuthor.isHidden = true
+                self.labelAuthor.isHidden = true
+            }
+        }
     }
     
     func insertBook() {
