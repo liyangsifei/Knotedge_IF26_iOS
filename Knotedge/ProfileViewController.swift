@@ -71,6 +71,7 @@ class ProfileViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         counts()
+        getDefaultUser()
     }
     
     func connextionBD () {
@@ -193,6 +194,9 @@ class ProfileViewController: UIViewController {
                 print (error)
             }
         }
+        getDefaultUser()
+    }
+    func getDefaultUser() {
         do {
             let users = try self.database.prepare(self.TABLE_PROFILE)
             for u in users {

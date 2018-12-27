@@ -92,7 +92,7 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     
     //Take image from library
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+        if let pickedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
             self.image = pickedImage
             fieldPhotoBtn.setBackgroundImage(self.image, for: UIControl.State.normal)
         }
@@ -134,14 +134,28 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         }
     }
     func loadPhotoFromLibrary() {
-        let imgPicker = UIImagePickerController()
-        imgPicker.delegate = self
-        imgPicker.sourceType = .photoLibrary
-        present(imgPicker, animated: true, completion: nil)
+        let picker = UIImagePickerController()
+        picker.delegate = self
+        picker.sourceType = .photoLibrary
+        picker.allowsEditing = true
+        present(picker, animated: true, completion: nil)
     }
     
     func loadCamera() {
-        
+        let picker:UIImagePickerController = UIImagePickerController()
+        picker.delegate = self as UIImagePickerControllerDelegate & UINavigationControllerDelegate
+        picker.sourceType = .camera
+        picker.allowsEditing = true
+        if UIImagePickerController.isSourceTypeAvailable(.camera){
+            self.present(picker, animated: true, completion: { () -> Void in })
+        }
+    }
+    func loadPhotoAlbum() {
+        let picker:UIImagePickerController = UIImagePickerController()
+        picker.delegate = self as UIImagePickerControllerDelegate & UINavigationControllerDelegate
+        picker.sourceType = .savedPhotosAlbum
+        picker.allowsEditing = true
+        self.present(picker, animated: true, completion: { () -> Void in })
     }
     func sharePhoto() {
         let controller = UIActivityViewController(activityItems: [self.image], applicationActivities: nil)
@@ -154,13 +168,17 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         controller.title = "Select"
         //controller.message = ""
         
-        let libraryAction = UIAlertAction(title: "Import photo from camera roll", style: UIAlertAction.Style.default) {
+        let libraryAction = UIAlertAction(title: "Import photo from library", style: UIAlertAction.Style.default) {
             action in controller.dismiss(animated: true, completion: nil)
             self.loadPhotoFromLibrary()
         }
         let cameraAction = UIAlertAction(title: "Take a photo", style: UIAlertAction.Style.default) {
             action in controller.dismiss(animated: true, completion: nil)
             self.loadCamera()
+        }
+        let photoAlbumAction = UIAlertAction(title: "Import from album", style: UIAlertAction.Style.default) {
+            action in controller.dismiss(animated: true, completion: nil)
+            self.loadPhotoAlbum()
         }
         let shareAction = UIAlertAction(title: "Share your profile photo", style: UIAlertAction.Style.default) {
             action in controller.dismiss(animated: true, completion: nil)
@@ -171,6 +189,7 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         }
         controller.addAction(libraryAction)
         controller.addAction(cameraAction)
+        controller.addAction(photoAlbumAction)
         controller.addAction(shareAction)
         controller.addAction(cancelAction)
         present(controller, animated: true, completion: nil)
