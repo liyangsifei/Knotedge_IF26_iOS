@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		912D7B6621D3BF2000481E8E /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 912D7B6521D3BF2000481E8E /* MainTabBarController.swift */; };
+		912D7B6821D4C90000481E8E /* AllClassesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 912D7B6721D4C90000481E8E /* AllClassesTableViewController.swift */; };
+		912D7B6B21D4DCFA00481E8E /* AllBooksTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 912D7B6A21D4DCFA00481E8E /* AllBooksTableViewController.swift */; };
+		912D7B6F21D4DD8700481E8E /* AllTagsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 912D7B6E21D4DD8700481E8E /* AllTagsCollectionViewController.swift */; };
+		912D7B7121D4DD9100481E8E /* AllNotesCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 912D7B7021D4DD9100481E8E /* AllNotesCollectionViewController.swift */; };
 		9147D8A921D3AC6D00E4D73B /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9147D8A821D3AC6D00E4D73B /* EditProfileViewController.swift */; };
 		9190972F21C52C76008BC4EA /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9190972E21C52C76008BC4EA /* SQLite.framework */; };
 		9190973121C5851F008BC4EA /* Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9190973021C5851F008BC4EA /* Object.swift */; };
@@ -17,11 +21,8 @@
 		9190973921C58626008BC4EA /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9190973821C58626008BC4EA /* Profile.swift */; };
 		9190973C21C58642008BC4EA /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9190973B21C58642008BC4EA /* Tag.swift */; };
 		9190973E21C5877B008BC4EA /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9190973D21C5877B008BC4EA /* Book.swift */; };
-		9190974821C706A8008BC4EA /* AllClassesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9190974721C706A8008BC4EA /* AllClassesViewController.swift */; };
-		9190974A21C706BB008BC4EA /* PersonClassesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9190974921C706BB008BC4EA /* PersonClassesViewController.swift */; };
 		9190974C21C810EE008BC4EA /* AddClassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9190974B21C810EE008BC4EA /* AddClassViewController.swift */; };
 		9190974E21C85196008BC4EA /* AddNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9190974D21C85196008BC4EA /* AddNoteViewController.swift */; };
-		9190975021C90536008BC4EA /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9190974F21C90535008BC4EA /* SecondViewController.swift */; };
 		91A6728721A4082500808C1A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A6728621A4082500808C1A /* AppDelegate.swift */; };
 		91A6728C21A4082500808C1A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 91A6728A21A4082500808C1A /* Main.storyboard */; };
 		91A6728E21A4082700808C1A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91A6728D21A4082700808C1A /* Assets.xcassets */; };
@@ -64,6 +65,10 @@
 
 /* Begin PBXFileReference section */
 		912D7B6521D3BF2000481E8E /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		912D7B6721D4C90000481E8E /* AllClassesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllClassesTableViewController.swift; sourceTree = "<group>"; };
+		912D7B6A21D4DCFA00481E8E /* AllBooksTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllBooksTableViewController.swift; sourceTree = "<group>"; };
+		912D7B6E21D4DD8700481E8E /* AllTagsCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTagsCollectionViewController.swift; sourceTree = "<group>"; };
+		912D7B7021D4DD9100481E8E /* AllNotesCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllNotesCollectionViewController.swift; sourceTree = "<group>"; };
 		9147D8A821D3AC6D00E4D73B /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		9190972B21C52B7D008BC4EA /* SQLite.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = SQLite.framework.dSYM; path = Carthage/Build/iOS/SQLite.framework.dSYM; sourceTree = "<group>"; };
 		9190972E21C52C76008BC4EA /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = Carthage/Build/iOS/SQLite.framework; sourceTree = "<group>"; };
@@ -74,11 +79,8 @@
 		9190973821C58626008BC4EA /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		9190973B21C58642008BC4EA /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		9190973D21C5877B008BC4EA /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
-		9190974721C706A8008BC4EA /* AllClassesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllClassesViewController.swift; sourceTree = "<group>"; };
-		9190974921C706BB008BC4EA /* PersonClassesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonClassesViewController.swift; sourceTree = "<group>"; };
 		9190974B21C810EE008BC4EA /* AddClassViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddClassViewController.swift; sourceTree = "<group>"; };
 		9190974D21C85196008BC4EA /* AddNoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNoteViewController.swift; sourceTree = "<group>"; };
-		9190974F21C90535008BC4EA /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		91A6728321A4082500808C1A /* Knotedge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Knotedge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		91A6728621A4082500808C1A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		91A6728B21A4082500808C1A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -175,14 +177,15 @@
 				91A6728D21A4082700808C1A /* Assets.xcassets */,
 				91A6728F21A4082700808C1A /* LaunchScreen.storyboard */,
 				91A6729221A4082700808C1A /* Info.plist */,
-				9190974721C706A8008BC4EA /* AllClassesViewController.swift */,
-				9190974921C706BB008BC4EA /* PersonClassesViewController.swift */,
 				9190974B21C810EE008BC4EA /* AddClassViewController.swift */,
 				9190974D21C85196008BC4EA /* AddNoteViewController.swift */,
-				9190974F21C90535008BC4EA /* SecondViewController.swift */,
 				91F20DE121C95C4500861A5E /* ProfileViewController.swift */,
 				9147D8A821D3AC6D00E4D73B /* EditProfileViewController.swift */,
 				912D7B6521D3BF2000481E8E /* MainTabBarController.swift */,
+				912D7B6721D4C90000481E8E /* AllClassesTableViewController.swift */,
+				912D7B6A21D4DCFA00481E8E /* AllBooksTableViewController.swift */,
+				912D7B6E21D4DD8700481E8E /* AllTagsCollectionViewController.swift */,
+				912D7B7021D4DD9100481E8E /* AllNotesCollectionViewController.swift */,
 			);
 			path = Knotedge;
 			sourceTree = "<group>";
@@ -360,21 +363,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				9147D8A921D3AC6D00E4D73B /* EditProfileViewController.swift in Sources */,
-				9190975021C90536008BC4EA /* SecondViewController.swift in Sources */,
 				9190973321C5852E008BC4EA /* Person.swift in Sources */,
 				9190973921C58626008BC4EA /* Profile.swift in Sources */,
 				91A6728721A4082500808C1A /* AppDelegate.swift in Sources */,
 				91F20DE221C95C4500861A5E /* ProfileViewController.swift in Sources */,
 				9190973121C5851F008BC4EA /* Object.swift in Sources */,
 				9190973521C58538008BC4EA /* Event.swift in Sources */,
-				9190974821C706A8008BC4EA /* AllClassesViewController.swift in Sources */,
+				912D7B6F21D4DD8700481E8E /* AllTagsCollectionViewController.swift in Sources */,
 				9190974E21C85196008BC4EA /* AddNoteViewController.swift in Sources */,
 				9190973C21C58642008BC4EA /* Tag.swift in Sources */,
 				9190973721C5860E008BC4EA /* Place.swift in Sources */,
 				9190973E21C5877B008BC4EA /* Book.swift in Sources */,
-				9190974A21C706BB008BC4EA /* PersonClassesViewController.swift in Sources */,
 				9190974C21C810EE008BC4EA /* AddClassViewController.swift in Sources */,
 				91EE784021C049D300646ECE /* Note.swift in Sources */,
+				912D7B7121D4DD9100481E8E /* AllNotesCollectionViewController.swift in Sources */,
+				912D7B6821D4C90000481E8E /* AllClassesTableViewController.swift in Sources */,
+				912D7B6B21D4DCFA00481E8E /* AllBooksTableViewController.swift in Sources */,
 				912D7B6621D3BF2000481E8E /* MainTabBarController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

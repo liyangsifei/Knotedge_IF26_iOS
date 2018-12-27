@@ -42,17 +42,13 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     
     //Photo Button to open the library
     @IBAction func changePhotoAction(_ sender: UIButton) {
-        let imgPicker = UIImagePickerController()
-        imgPicker.delegate = self
-        imgPicker.sourceType = .photoLibrary
-        present(imgPicker, animated: true, completion: nil)
-    }
-
-    //Button Done
-    @IBAction func doneAction(_ sender: UIButton) {
-        updateProfile()
+        loadPhotoAlert()
     }
     
+    @IBAction func saveBarItemAction(_ sender: UIBarButtonItem) {
+        updateProfile()
+        performSegue(withIdentifier: "back2profile", sender: self)
+    }
     //Edit profile to BD
     func updateProfile() {
         let imgData:NSData = self.image.pngData()! as NSData
@@ -61,7 +57,6 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         let newName = fieldName.text!
         let newSurname = fieldSurname.text!
         let newEmail = fieldEmail.text!
-        print("\(newName) + \(newSurname) + \(newEmail)")
         do {
             try self.database.run(sql.update(profileView.PROFILE_LAST_NAME <- newName))
             try self.database.run(sql.update(profileView.PROFILE_FIRST_NAME <- newSurname))
@@ -137,6 +132,54 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         }
         catch {
             print (error)
+        }
+    }
+    func loadPhotoFromLibrary() {
+        let imgPicker = UIImagePickerController()
+        imgPicker.delegate = self
+        imgPicker.sourceType = .photoLibrary
+        present(imgPicker, animated: true, completion: nil)
+    }
+    
+    func loadCamera() {
+        
+    }
+    func sharePhoto() {
+        let controller = UIActivityViewController(activityItems: [self.image], applicationActivities: nil)
+        present(controller, animated: true, completion: nil)
+    }
+    
+    func loadPhotoAlert() {
+        let controller = UIAlertController()
+        
+        controller.title = "Select"
+        //controller.message = ""
+        
+        let libraryAction = UIAlertAction(title: "Import photo from camera roll", style: UIAlertAction.Style.default) {
+            action in controller.dismiss(animated: true, completion: nil)
+            self.loadPhotoFromLibrary()
+        }
+        let cameraAction = UIAlertAction(title: "Take a photo", style: UIAlertAction.Style.default) {
+            action in controller.dismiss(animated: true, completion: nil)
+            self.loadCamera()
+        }
+        let shareAction = UIAlertAction(title: "Share your profile photo", style: UIAlertAction.Style.default) {
+            action in controller.dismiss(animated: true, completion: nil)
+            self.sharePhoto()
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel) {
+            action in controller.dismiss(animated: true, completion: nil)
+        }
+        controller.addAction(libraryAction)
+        controller.addAction(cameraAction)
+        controller.addAction(shareAction)
+        controller.addAction(cancelAction)
+        present(controller, animated: true, completion: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "back2profile" {
+            //_ = segue.destination as! MainTabBarController
         }
     }
 }

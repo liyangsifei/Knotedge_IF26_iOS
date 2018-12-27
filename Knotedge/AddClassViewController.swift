@@ -22,9 +22,6 @@ class AddClassViewController: UIViewController, UIScrollViewDelegate {
     
     @IBOutlet weak var spaceBarItem: UIBarButtonItem!
     
-    @IBOutlet weak var addTagButton: UIButton!
-    @IBOutlet weak var addRelationButton: UIButton!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         connextionBD()
