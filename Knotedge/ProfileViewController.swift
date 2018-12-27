@@ -54,6 +54,9 @@ class ProfileViewController: UIViewController {
     let NOTE_EDIT_DATE = Expression<String>("note_edit_date")
     
     let TABLE_RELATION_OBJECTS = Table("relation_objects")
+    let RELATION_OBJ1 = Expression<Int>("object_id1")
+    let RELATION_OBJ2 = Expression<Int>("object_id2")
+    
     let TABLE_RELATION_OBJECT_TAG = Table("relation_object_tag")
     let TABLE_RELATION_BOOK_TAG = Table("relation_book_tag")
     let TABLE_RELATION_OBJECT_NOTE = Table("relation_object_note")
@@ -85,21 +88,6 @@ class ProfileViewController: UIViewController {
             print (error)
         }
     }
-    
-    func insertObject() {
-        let name = "name"
-        let type = "tp"
-        let date = "dt"
-        let description = "des"
-        let insert = self.TABLE_OBJECT.insert(self.OBJECT_NAME <- name, self.OBJECT_DATE <- date, self.OBJECT_DESCRIPTION <- description, self.OBJECT_TYPE <- type)
-        do {
-            try self.database.run(insert)
-            print ("OBJ inserted")
-        } catch {
-            print (error)
-        }
-    }
-    
     func counts() {
         var nbNote = 0
         var nbClass = 0
@@ -119,8 +107,6 @@ class ProfileViewController: UIViewController {
         countBookBtn.setTitle(String(nbBook), for: UIControl.State.normal)
         countTagBtn.setTitle(String(nbTag), for: UIControl.State.normal)
     }
-    
-    
     func createTables() {
         if !self.tableExist {
             self.tableExist = true
@@ -157,6 +143,26 @@ class ProfileViewController: UIViewController {
                 table.column(self.NOTE_EDIT_DATE)
                 table.column(self.NOTE_CREATE_DATE)
             }
+            let creatTableObjectTag = self.TABLE_RELATION_OBJECT_TAG.create { table in
+                table.column(self.TAG_ID)
+                table.column(self.OBJECT_ID)
+            }
+            let creatTableBookTag = self.TABLE_RELATION_BOOK_TAG.create { table in
+                table.column(self.TAG_ID)
+                table.column(self.BOOK_ID)
+            }
+            let creatTableObjectNote = self.TABLE_RELATION_OBJECT_NOTE.create { table in
+                table.column(self.NOTE_ID)
+                table.column(self.OBJECT_ID)
+            }
+            let creatTableBookNote = self.TABLE_RELATION_BOOK_NOTE.create { table in
+                table.column(self.NOTE_ID)
+                table.column(self.BOOK_ID)
+            }
+            let creatTableRelationObjs = self.TABLE_RELATION_OBJECTS.create { table in
+                table.column(self.RELATION_OBJ1)
+                table.column(self.RELATION_OBJ2)
+            }
             
             do {
                 try self.database.run(createTableProfile)
@@ -164,6 +170,11 @@ class ProfileViewController: UIViewController {
                 try self.database.run(createTableBook)
                 try self.database.run(createTableTag)
                 try self.database.run(createTableNote)
+                try self.database.run(creatTableRelationObjs)
+                try self.database.run(creatTableObjectTag)
+                try self.database.run(creatTableBookTag)
+                try self.database.run(creatTableObjectNote)
+                try self.database.run(creatTableBookNote)
             }
             catch {
                 print (error)
