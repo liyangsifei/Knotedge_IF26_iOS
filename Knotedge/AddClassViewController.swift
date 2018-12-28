@@ -17,14 +17,17 @@ class AddClassViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var typeSegment: UISegmentedControl!
     @IBOutlet weak var fieldName: UITextField!
     @IBOutlet weak var fieldDescription: UITextField!
-    @IBOutlet weak var fieldDate: UITextField!
+    @IBOutlet weak var btnDate: UIButton!
     @IBOutlet weak var fieldAuthor: UITextField!
     @IBOutlet weak var labelAuthor: UILabel!
+    @IBOutlet weak var datePicker: UIDatePicker!
+    var dateSelected = Date()
     
     @IBOutlet weak var spaceBarItem: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //datePicker.isHidden = false
         connextionBD()
         configureToolBar()
     }
@@ -39,6 +42,7 @@ class AddClassViewController: UIViewController, UIScrollViewDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(false)
+        self.datePicker.isHidden = true
     }
     
     @IBAction func changeTypeAction(_ sender: UISegmentedControl) {
@@ -59,7 +63,7 @@ class AddClassViewController: UIViewController, UIScrollViewDelegate {
     func insertBook() {
         let name = fieldName.text!
         let author = fieldAuthor.text!
-        let date = fieldDate.text!
+        let date = btnDate.titleLabel!.text!
         let description = fieldDescription.text!
         let insert = profileView.TABLE_BOOK.insert(profileView.BOOK_NAME <- name, profileView.BOOK_AUTHOR <- author, profileView.BOOK_DESCRIPTION <- description, profileView.BOOK_DATE <- date)
         do {
@@ -73,7 +77,7 @@ class AddClassViewController: UIViewController, UIScrollViewDelegate {
     func insertClass () {
         let name = fieldName.text!
         var type = ""
-        let date = fieldDate.text!
+        let date = btnDate.titleLabel!.text!
         let description = fieldDescription.text!
         switch typeSegment.selectedSegmentIndex{
         case 1 :
@@ -93,6 +97,16 @@ class AddClassViewController: UIViewController, UIScrollViewDelegate {
         } catch {
             print (error)
         }
+    }
+    @IBAction func clickBtnDate(_ sender: UIButton) {
+        datePicker.isHidden = false
+        datePicker.date = self.dateSelected
+    }
+    @IBAction func dateChanged(_ sender: UIDatePicker) {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd/MM/yyyy"
+        self.btnDate.setTitle(formatter.string(from: datePicker.date), for: UIControl.State.normal)
+        self.dateSelected = datePicker.date
     }
     
     //Listeners of the keyboard Event
