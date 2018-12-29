@@ -18,7 +18,8 @@ class DetailNoteViewController: UIViewController, UITableViewDataSource,UITableV
     var note = Note(title: "", content: "", date_create: "", date_edit: "")
 
     @IBOutlet weak var fieldTitle: UILabel!
-    @IBOutlet weak var fieldText: UILabel!
+    @IBOutlet weak var fieldText: UITextView!
+    @IBOutlet weak var fieldTime: UILabel!
     var relatedObjectList: [Object] = []
     var relatedBookList: [Book] = []
     let sectionList = ["Class","Book"]
@@ -52,6 +53,7 @@ class DetailNoteViewController: UIViewController, UITableViewDataSource,UITableV
         }
         self.fieldTitle.text = self.note.title
         self.fieldText.text = self.note.content
+        self.fieldTime.text = self.note.date_edit
     }
     
     @IBAction func actionEdit(_ sender: UIBarButtonItem) {

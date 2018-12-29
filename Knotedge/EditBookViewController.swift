@@ -21,8 +21,8 @@ class EditBookViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var fieldName: UITextField!
     @IBOutlet weak var fieldAuthor: UITextField!
     @IBOutlet weak var btnDate: UIButton!
-    @IBOutlet weak var fieldDescription: UITextField!
     @IBOutlet weak var datePicker: UIDatePicker!
+    @IBOutlet weak var fieldDescription: UITextView!
     
     var tagList: [Tag] = []
     var objectList: [Object] = []

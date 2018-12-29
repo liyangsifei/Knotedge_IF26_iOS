@@ -21,7 +21,7 @@ class EditObjectViewController: UIViewController, UITableViewDataSource, UITable
     @IBOutlet weak var fieldType: UILabel!
     @IBOutlet weak var fieldName: UITextField!
     @IBOutlet weak var btnDate: UIButton!
-    @IBOutlet weak var fieldDescription: UITextField!
+    @IBOutlet weak var fieldDescription: UITextView!
     @IBOutlet weak var datePicker: UIDatePicker!
     var dateSelected = Date()
     var bookList: [Book] = []
@@ -303,7 +303,7 @@ class EditObjectViewController: UIViewController, UITableViewDataSource, UITable
             print(error)
         }
         do {
-            let list = try self.database.prepare(profileView.TABLE_OBJECT)
+            let list = try self.database.prepare(profileView.TABLE_OBJECT.filter(profileView.OBJECT_ID != self.idObject))
             for item in list {
                 let obj = Person(name: item[profileView.OBJECT_NAME], date: item[profileView.OBJECT_DATE], description: item[profileView.OBJECT_DESCRIPTION], type: item[profileView.OBJECT_TYPE])
                 obj.id = item[profileView.OBJECT_ID]

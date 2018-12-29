@@ -18,7 +18,7 @@ class AddClassViewController: UIViewController, UIScrollViewDelegate, UITableVie
     @IBOutlet weak var toolBar: UIToolbar!
     @IBOutlet weak var typeSegment: UISegmentedControl!
     @IBOutlet weak var fieldName: UITextField!
-    @IBOutlet weak var fieldDescription: UITextField!
+    @IBOutlet weak var fieldDescription: UITextView!
     @IBOutlet weak var btnDate: UIButton!
     @IBOutlet weak var fieldAuthor: UITextField!
     @IBOutlet weak var labelAuthor: UILabel!
@@ -77,7 +77,10 @@ class AddClassViewController: UIViewController, UIScrollViewDelegate, UITableVie
     func insertBook() {
         let name = fieldName.text!
         let author = fieldAuthor.text!
-        let date = btnDate.titleLabel!.text!
+        var date = btnDate.titleLabel!.text!
+        if date == "Choose Date" {
+            date = "no date"
+        }
         let description = fieldDescription.text!
         let insert = profileView.TABLE_BOOK.insert(profileView.BOOK_NAME <- name, profileView.BOOK_AUTHOR <- author, profileView.BOOK_DESCRIPTION <- description, profileView.BOOK_DATE <- date)
         do {
@@ -90,7 +93,10 @@ class AddClassViewController: UIViewController, UIScrollViewDelegate, UITableVie
     func insertClass () {
         let name = fieldName.text!
         var type = ""
-        let date = btnDate.titleLabel!.text!
+        var date = btnDate.titleLabel!.text!
+        if date == "Choose Date" {
+            date = "no date"
+        }
         let description = fieldDescription.text!
         switch typeSegment.selectedSegmentIndex{
         case 1 :

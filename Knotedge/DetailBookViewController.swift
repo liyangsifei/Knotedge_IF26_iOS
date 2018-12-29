@@ -13,6 +13,7 @@ class DetailBookViewController: UIViewController, UITableViewDataSource, UITable
     
     let tagIdentifier = "relatedTag2Bk"
     let objIdentifier = "relatedCls2Bk"
+    let noteIdentifier = "relatedNote2Book"
     var database:Connection!
     let profileView = ProfileViewController()
     var idBook = 0
@@ -21,12 +22,13 @@ class DetailBookViewController: UIViewController, UITableViewDataSource, UITable
     @IBOutlet weak var fieldName: UILabel!
     @IBOutlet weak var fieldAuthor: UILabel!
     @IBOutlet weak var fieldDate: UILabel!
-    @IBOutlet weak var fieldDescription: UILabel!
+    @IBOutlet weak var fieldDescription: UITextView!
     var relatedTagList: [Tag] = []
     @IBOutlet weak var tagTableView: UITableView!
     var relatedClassList: [Object] = []
     @IBOutlet weak var classTableView: UITableView!
-    
+    var relatedNoteList: [Note] = []
+    @IBOutlet weak var noteTableView: UITableView!
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
@@ -40,6 +42,8 @@ class DetailBookViewController: UIViewController, UITableViewDataSource, UITable
         self.tagTableView.dataSource = self
         self.classTableView.delegate = self
         self.classTableView.dataSource = self
+        self.noteTableView.delegate = self
+        self.noteTableView.dataSource = self
     }
     
     func loadDetails() {
@@ -97,6 +101,8 @@ class DetailBookViewController: UIViewController, UITableViewDataSource, UITable
             return self.relatedTagList.count
         case self.classTableView:
             return self.relatedClassList.count
+        case self.noteTableView:
+            return self.relatedNoteList.count
         default:
             return 0
         }
@@ -107,9 +113,24 @@ class DetailBookViewController: UIViewController, UITableViewDataSource, UITable
             return 1
         case self.classTableView:
             return 1
+        case self.noteTableView:
+            return 1
         default:
             return 0
         }
+    }
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) ->
+        String? {
+            switch tableView{
+            case self.tagTableView:
+                return "Tags"
+            case self.classTableView:
+                return "Classes"
+            case self.noteTableView:
+                return "Notes"
+            default:
+                return ""
+            }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -121,6 +142,10 @@ class DetailBookViewController: UIViewController, UITableViewDataSource, UITable
         case self.classTableView:
             let cell = tableView.dequeueReusableCell(withIdentifier: objIdentifier, for: indexPath)
             cell.textLabel?.text = relatedClassList[indexPath.row].name
+            return cell
+        case self.noteTableView:
+            let cell = tableView.dequeueReusableCell(withIdentifier: noteIdentifier, for: indexPath)
+            cell.textLabel?.text = relatedNoteList[indexPath.row].title
             return cell
         default :
             let cell = tableView.dequeueReusableCell(withIdentifier: objIdentifier, for: indexPath)
@@ -169,6 +194,29 @@ class DetailBookViewController: UIViewController, UITableViewDataSource, UITable
                 tag.id = o[profileView.TAG_ID]
                 tag.name = o[profileView.TAG_NAME]
                 self.relatedTagList.append(tag)
+            }
+        } catch{
+            print(error)
+        }
+        var listIdNote: [Int] = []
+        do {
+            let ids = try self.database.prepare(profileView.TABLE_RELATION_BOOK_NOTE.filter(profileView.BOOK_ID==bookId))
+            for i in ids {
+                listIdNote.append(i[profileView.NOTE_ID])
+            }
+        } catch{
+            print(error)
+        }
+        do {
+            let objects = try self.database.prepare(profileView.TABLE_NOTE.filter(listIdNote.contains(profileView.NOTE_ID)))
+            for o in objects {
+                let note = Note(title: "", content: "", date_create: "", date_edit: "")
+                note.id = o[profileView.NOTE_ID]
+                note.title = o[profileView.NOTE_TITLE]
+                note.content = o[profileView.NOTE_CONTENT]
+                note.date_create = o[profileView.NOTE_CREATE_DATE]
+                note.date_edit = o[profileView.NOTE_EDIT_DATE]
+                self.relatedNoteList.append(note)
             }
         } catch{
             print(error)

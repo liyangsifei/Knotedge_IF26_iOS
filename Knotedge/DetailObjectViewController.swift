@@ -12,6 +12,7 @@ import SQLite
 class DetailObjectViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     let tagIdentifier = "relatedTag2Cls"
     let clsIdentifier = "relatedCls2Cls"
+    let noteIdentifier = "relatedNote2Cls"
     var database:Connection!
     let profileView = ProfileViewController()
     var idObject = 0
@@ -20,13 +21,15 @@ class DetailObjectViewController: UIViewController, UITableViewDataSource, UITab
     @IBOutlet weak var fieldType: UILabel!
     @IBOutlet weak var fieldName: UILabel!
     @IBOutlet weak var fieldDate: UILabel!
-    @IBOutlet weak var fieldDescription: UILabel!
+    @IBOutlet weak var fieldDescription: UITextView!
     var relatedTagList:[Tag] = []
     @IBOutlet weak var tagTableView: UITableView!
     let sectionList = ["Class","Book"]
     var relatedBookList: [Book] = []
     var relatedObjectList: [Object] = []
     @IBOutlet weak var classTableView: UITableView!
+    var relatedNoteList: [Note] = []
+    @IBOutlet weak var noteTableView: UITableView!
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         loadDetails()
@@ -41,6 +44,8 @@ class DetailObjectViewController: UIViewController, UITableViewDataSource, UITab
         self.tagTableView.dataSource = self
         self.classTableView.delegate = self
         self.classTableView.dataSource = self
+        self.noteTableView.delegate = self
+        self.noteTableView.dataSource = self
     }
     
     func loadDetails() {
@@ -61,7 +66,7 @@ class DetailObjectViewController: UIViewController, UITableViewDataSource, UITab
         self.fieldName.text = self.object.name
         self.fieldDate.text = self.object.date
         self.fieldDescription.text = self.object.description
-        self.fieldType.text = self.object.type
+        self.fieldType.text = "\(self.object.type.capitalized) :"
     }
     
     @IBAction func actionEdit(_ sender: UIBarButtonItem) {
@@ -103,6 +108,8 @@ class DetailObjectViewController: UIViewController, UITableViewDataSource, UITab
             default:
                 return 0
             }
+        case self.noteTableView:
+            return self.relatedNoteList.count
         default:
             return 0
         }
@@ -127,9 +134,13 @@ class DetailObjectViewController: UIViewController, UITableViewDataSource, UITab
                 cell.textLabel?.text = relatedBookList[indexPath.row].name
                 return cell
             }
+        case self.noteTableView:
+            let cell = tableView.dequeueReusableCell(withIdentifier: noteIdentifier, for: indexPath)
+            cell.textLabel?.text = relatedNoteList[indexPath.row].title
+            return cell
         default :
-            let cell = tableView.dequeueReusableCell(withIdentifier: clsIdentifier, for: indexPath)
-            cell.textLabel?.text = relatedObjectList[indexPath.row].name
+            let cell = tableView.dequeueReusableCell(withIdentifier: noteIdentifier, for: indexPath)
+            cell.textLabel?.text = relatedNoteList[indexPath.row].title
             return cell
         }
     }
@@ -140,6 +151,8 @@ class DetailObjectViewController: UIViewController, UITableViewDataSource, UITab
             return 1
         case self.classTableView:
             return 2
+        case self.noteTableView:
+            return 1
         default:
             return 0
         }
@@ -148,15 +161,40 @@ class DetailObjectViewController: UIViewController, UITableViewDataSource, UITab
         String? {
             switch tableView{
             case self.tagTableView:
-                return "Tag"
+                return "Tags"
             case self.classTableView:
                 return "\(self.sectionList[section])"
+            case self.noteTableView:
+                return "Notes"
             default:
                 return ""
             }
     }
     func loadRelation() {
         let objId = self.object.id
+        var listIdNote: [Int] = []
+        do {
+            let ids = try self.database.prepare(profileView.TABLE_RELATION_OBJECT_NOTE.filter(profileView.OBJECT_ID==objId))
+            for i in ids {
+                listIdNote.append(i[profileView.NOTE_ID])
+            }
+        } catch{
+            print(error)
+        }
+        do {
+            let notes = try self.database.prepare(profileView.TABLE_NOTE.filter(listIdNote.contains(profileView.NOTE_ID)))
+            for n in notes {
+                let note = Note(title: "", content: "", date_create: "", date_edit: "")
+                note.id = n[profileView.NOTE_ID]
+                note.title = n[profileView.NOTE_TITLE]
+                note.content = n[profileView.NOTE_CONTENT]
+                note.date_create = n[profileView.NOTE_CREATE_DATE]
+                note.date_edit = n[profileView.NOTE_EDIT_DATE]
+                self.relatedNoteList.append(note)
+            }
+        } catch{
+            print(error)
+        }
         var listIdObj: [Int] = []
         do {
             let ids = try self.database.prepare(profileView.TABLE_RELATION_OBJECTS.filter(profileView.RELATION_OBJ1==objId))

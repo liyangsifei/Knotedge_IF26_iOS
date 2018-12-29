@@ -18,6 +18,7 @@ class EditNoteViewController: UIViewController, UITableViewDataSource, UITableVi
     
     @IBOutlet weak var fieldTitle: UITextField!
     @IBOutlet weak var fieldText: UITextView!
+    @IBOutlet weak var fieldTime: UILabel!
     
     var idNote = 0
     var note = Note(title: "", content: "", date_create: "", date_edit: "")
@@ -66,6 +67,7 @@ class EditNoteViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         self.fieldTitle.text = self.note.title
         self.fieldText.text = self.note.content
+        self.fieldTime.text = self.note.date_edit
     }
     
     @IBAction func saveAction(_ sender: UIBarButtonItem) {
@@ -93,7 +95,7 @@ class EditNoteViewController: UIViewController, UITableViewDataSource, UITableVi
     
     //Listeners of the keyboard Event
     @objc func keyboardWillShow(_ notification: Notification) {
-        view.frame.origin.y = -getKeyboardHeight(notification)/4
+        view.frame.origin.y = -getKeyboardHeight(notification)/2
     }
     func getKeyboardHeight(_ notification: Notification) -> CGFloat {
         let userInfo = notification.userInfo
