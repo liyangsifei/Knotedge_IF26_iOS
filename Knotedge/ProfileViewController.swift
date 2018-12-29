@@ -57,6 +57,7 @@ class ProfileViewController: UIViewController {
     let RELATION_OBJ1 = Expression<Int>("object_id1")
     let RELATION_OBJ2 = Expression<Int>("object_id2")
     
+    let TABLE_RELATION_OBJECT_BOOK = Table("relation_object_book")
     let TABLE_RELATION_OBJECT_TAG = Table("relation_object_tag")
     let TABLE_RELATION_BOOK_TAG = Table("relation_book_tag")
     let TABLE_RELATION_OBJECT_NOTE = Table("relation_object_note")
@@ -163,6 +164,10 @@ class ProfileViewController: UIViewController {
                 table.column(self.RELATION_OBJ1)
                 table.column(self.RELATION_OBJ2)
             }
+            let creatTableRelationObjectBook = self.TABLE_RELATION_OBJECT_BOOK.create { table in
+                table.column(self.OBJECT_ID)
+                table.column(self.BOOK_ID)
+            }
             
             do {
                 try self.database.run(createTableProfile)
@@ -175,6 +180,7 @@ class ProfileViewController: UIViewController {
                 try self.database.run(creatTableBookTag)
                 try self.database.run(creatTableObjectNote)
                 try self.database.run(creatTableBookNote)
+                try self.database.run(creatTableRelationObjectBook)
             }
             catch {
                 print (error)
@@ -200,7 +206,6 @@ class ProfileViewController: UIViewController {
             let insert = self.TABLE_PROFILE.insert(self.PROFILE_FIRST_NAME <- fName, self.PROFILE_LAST_NAME <- lName, self.PROFILE_EMAIL <- email, self.PROFILE_PHOTO <- strBase64)
             do {
                 try self.database.run(insert)
-                print ("profile inserted")
             } catch {
                 print (error)
             }

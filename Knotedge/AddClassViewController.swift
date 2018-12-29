@@ -8,9 +8,11 @@
 
 import UIKit
 import SQLite
+private var cellIdentifier = "tag2obj"
+private var objIdentifier = "obj2obj"
 
-class AddClassViewController: UIViewController, UIScrollViewDelegate {
-
+class AddClassViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource {
+    
     var database:Connection!
     let profileView = ProfileViewController()
     @IBOutlet weak var toolBar: UIToolbar!
@@ -22,14 +24,26 @@ class AddClassViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var labelAuthor: UILabel!
     @IBOutlet weak var datePicker: UIDatePicker!
     var dateSelected = Date()
+    var tagList:[Tag] = []
+    var selectedTags: [Tag] = []
+    @IBOutlet weak var tagTableView: UITableView!
+    var selectedObjs: [Object] = []
+    var objectList:[Object] = []
+    var bookList:[Book] = []
+    @IBOutlet weak var classTableView: UITableView!
     
     @IBOutlet weak var spaceBarItem: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //datePicker.isHidden = false
         connextionBD()
         configureToolBar()
+        loadAllTags()
+        loadAllObjects()
+        self.tagTableView.delegate = self
+        self.tagTableView.dataSource = self
+        self.classTableView.delegate = self
+        self.classTableView.dataSource = self
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -68,7 +82,6 @@ class AddClassViewController: UIViewController, UIScrollViewDelegate {
         let insert = profileView.TABLE_BOOK.insert(profileView.BOOK_NAME <- name, profileView.BOOK_AUTHOR <- author, profileView.BOOK_DESCRIPTION <- description, profileView.BOOK_DATE <- date)
         do {
             try self.database.run(insert)
-            print ("book inserted")
         } catch {
             print (error)
         }
@@ -93,7 +106,6 @@ class AddClassViewController: UIViewController, UIScrollViewDelegate {
         let insert = profileView.TABLE_OBJECT.insert(profileView.OBJECT_NAME <- name, profileView.OBJECT_TYPE <- type, profileView.OBJECT_DESCRIPTION <- description, profileView.OBJECT_DATE <- date)
         do {
             try self.database.run(insert)
-            print ("class inserted")
         } catch {
             print (error)
         }
@@ -153,13 +165,16 @@ class AddClassViewController: UIViewController, UIScrollViewDelegate {
         performSegue(withIdentifier: "back2main", sender: self)
     }
     @IBAction func addAction(_ sender: UIBarButtonItem) {
-        print("add action")
         switch typeSegment.selectedSegmentIndex {
         case 0:
             insertBook()
+            insertBookTag()
+            insertBookObj()
             performSegue(withIdentifier: "back2main", sender: self)
         default:
             insertClass()
+            insertObjTag()
+            insertObjObj()
             performSegue(withIdentifier: "back2main", sender: self)
         }
     }
@@ -167,6 +182,191 @@ class AddClassViewController: UIViewController, UIScrollViewDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "back2main" {
             _ = segue.destination as! MainTabBarController
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch tableView{
+        case self.tagTableView:
+            return self.tagList.count
+        case self.classTableView:
+            return self.objectList.count
+        default:
+            return 0
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        switch tableView{
+        case self.tagTableView:
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
+            cell.textLabel?.text = tagList[indexPath.row].name
+            let hasItem = selectedTags.contains { (tag) -> Bool in
+                if tag.id == tagList[indexPath.row].id {
+                    return true
+                }
+                return false
+            }
+            if hasItem {
+                cell.accessoryType = UITableViewCell.AccessoryType.checkmark
+            } else {
+                cell.accessoryType = UITableViewCell.AccessoryType.none
+            }
+            return cell
+        case self.classTableView:
+            let cell = tableView.dequeueReusableCell(withIdentifier: objIdentifier, for: indexPath)
+            cell.textLabel?.text = objectList[indexPath.row].name
+            let hasItem = selectedObjs.contains { (obj) -> Bool in
+                if obj.id == objectList[indexPath.row].id {
+                    return true
+                }
+                return false
+            }
+            if hasItem {
+                cell.accessoryType = UITableViewCell.AccessoryType.checkmark
+            } else {
+                cell.accessoryType = UITableViewCell.AccessoryType.none
+            }
+            return cell
+        default :
+            let cell = tableView.dequeueReusableCell(withIdentifier: objIdentifier, for: indexPath)
+            cell.textLabel?.text = objectList[indexPath.row].name
+            return cell
+        }
+    }
+    
+    func loadAllTags() {
+        do {
+            let list = try self.database.prepare(profileView.TABLE_TAG)
+            for item in list {
+                let t = Tag(name: item[profileView.TAG_NAME])
+                t.id = item[profileView.TAG_ID]
+                self.tagList.append(t)
+            }
+        } catch{
+            print(error)
+        }
+    }
+    func loadAllObjects() {
+        do {
+            let list = try self.database.prepare(profileView.TABLE_OBJECT)
+            for item in list {
+                let obj = Person(name: item[profileView.OBJECT_NAME], date: item[profileView.OBJECT_DATE], description: item[profileView.OBJECT_DESCRIPTION], type: item[profileView.OBJECT_TYPE])
+                obj.id = item[profileView.OBJECT_ID]
+                self.objectList.append(obj)
+            }
+        } catch{
+            print(error)
+        }
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
+        switch tableView {
+        case self.tagTableView:
+            var hasItem = -1
+            for (index,value) in self.selectedTags.enumerated() {
+                if value.id == tagList[indexPath.row].id {
+                    hasItem = index
+                }
+            }
+            if hasItem != -1 {
+                selectedTags.remove(at: hasItem)
+            }else{
+                selectedTags.append(tagList[indexPath.row])
+            }
+            self.tagTableView.reloadRows(at: [indexPath], with: .automatic)
+        case self.classTableView:
+            var hasItem = -1
+            for (index,value) in self.selectedObjs.enumerated() {
+                if value.id == objectList[indexPath.row].id {
+                    hasItem = index
+                }
+            }
+            if hasItem != -1 {
+                selectedObjs.remove(at: hasItem)
+            }else{
+                selectedObjs.append(objectList[indexPath.row])
+            }
+            self.classTableView.reloadRows(at: [indexPath], with: .automatic)
+        default :
+            break
+        }
+    }
+    
+    func getLastInsertedBookId() -> Int {
+        var idBook = 0
+        do {
+            let books = try self.database.prepare(profileView.TABLE_BOOK.order(profileView.BOOK_ID.desc).limit(1))
+            for b in books {
+                idBook = b[profileView.BOOK_ID]
+            }
+        } catch{
+            print(error)
+        }
+        return idBook
+    }
+    func getLastInsertedObjId() -> Int {
+        var idObj = 0
+        do {
+            let objs = try self.database.prepare(profileView.TABLE_OBJECT.order(profileView.OBJECT_ID.desc).limit(1))
+            for o in objs {
+                idObj = o[profileView.OBJECT_ID]
+            }
+        } catch{
+            print(error)
+        }
+        return idObj
+    }
+    
+    func insertBookTag() {
+        let idBook = self.getLastInsertedBookId()
+        guard idBook != 0 else{return}
+        for tag in selectedTags {
+            let insert = profileView.TABLE_RELATION_BOOK_TAG.insert(profileView.TAG_ID <- tag.id, profileView.BOOK_ID <- idBook)
+            do {
+                try self.database.run(insert)
+                print("book tag inserted")
+            } catch {
+                print (error)
+            }
+        }
+    }
+    func insertBookObj() {
+        let idBook = self.getLastInsertedBookId()
+        guard idBook != 0 else{return}
+        for obj in selectedObjs {
+            let insert = profileView.TABLE_RELATION_OBJECT_BOOK.insert(profileView.OBJECT_ID <- obj.id, profileView.BOOK_ID <- idBook)
+            do {
+                try self.database.run(insert)
+                print("book obj inserted")
+            } catch {
+                print (error)
+            }
+        }
+    }
+    func insertObjTag() {
+        let idObj = self.getLastInsertedObjId()
+        guard idObj != 0 else{return}
+        for tag in selectedTags {
+            let insert = profileView.TABLE_RELATION_OBJECT_TAG.insert(profileView.TAG_ID <- tag.id, profileView.OBJECT_ID <- idObj)
+            do {
+                try self.database.run(insert)
+                print("obj tag inserted")
+            } catch {
+                print (error)
+            }
+        }
+    }
+    func insertObjObj() {
+        let idObj = self.getLastInsertedObjId()
+        guard idObj != 0 else{return}
+        for obj in selectedObjs {
+            let insert = profileView.TABLE_RELATION_OBJECTS.insert(profileView.RELATION_OBJ1 <- obj.id, profileView.RELATION_OBJ2 <- idObj)
+            do {
+                try self.database.run(insert)
+                print("obj obj inserted")
+            } catch {
+                print (error)
+            }
         }
     }
 }

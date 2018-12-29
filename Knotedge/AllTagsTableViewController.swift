@@ -129,7 +129,6 @@ class AllTagsTableViewController: UITableViewController {
         let insert = profileView.TABLE_TAG.insert(profileView.TAG_NAME <- name)
         do {
             try self.database.run(insert)
-            print ("tag inserted")
         } catch {
             print (error)
         }

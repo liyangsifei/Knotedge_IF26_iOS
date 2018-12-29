@@ -9,8 +9,9 @@
 import UIKit
 import SQLite
 
-class DetailNoteViewController: UIViewController {
+class DetailNoteViewController: UIViewController, UITableViewDataSource,UITableViewDelegate {
     
+    let cellIdentifier = "relatedCls2Note"
     var database:Connection!
     let profileView = ProfileViewController()
     var idNote = 0
@@ -18,14 +19,20 @@ class DetailNoteViewController: UIViewController {
 
     @IBOutlet weak var fieldTitle: UILabel!
     @IBOutlet weak var fieldText: UILabel!
+    var relatedObjectList: [Object] = []
+    var relatedBookList: [Book] = []
+    let sectionList = ["Class","Book"]
+    @IBOutlet weak var classTableView: UITableView!
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        loadDetails()
     }
     override func viewDidLoad() {
         super.viewDidLoad()
         connextionBD()
         loadDetails()
+        loadRelatedClass()
+        classTableView.dataSource = self
+        classTableView.delegate = self
     }
     
     func loadDetails() {
@@ -72,5 +79,88 @@ class DetailNoteViewController: UIViewController {
             print (error)
         }
     }
-
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) ->
+        String? {
+            return "\(self.sectionList[section])"
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch sectionList[section] {
+        case "Class" :
+            return self.relatedObjectList.count
+        case "Book" :
+            return self.relatedBookList.count
+        default:
+            return 0
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
+        switch self.sectionList[indexPath.section] {
+        case "Class" :
+            cell.textLabel?.text = relatedObjectList[indexPath.row].name
+            return cell
+        case "Book" :
+            cell.textLabel?.text = relatedBookList[indexPath.row].name
+            return cell
+        default:
+            return cell
+        }
+    }
+    
+    func loadRelatedClass() {
+        let noteId = self.note.id
+        var listIdObj: [Int] = []
+        do {
+            let ids = try self.database.prepare(profileView.TABLE_RELATION_OBJECT_NOTE.filter(profileView.NOTE_ID==noteId))
+            for i in ids {
+                listIdObj.append(i[profileView.OBJECT_ID])
+            }
+        } catch{
+            print(error)
+        }
+        do {
+            let objects = try self.database.prepare(profileView.TABLE_OBJECT.filter(listIdObj.contains(profileView.OBJECT_ID)))
+            for o in objects {
+                let obj = Object(name: "", date: "", description: "", type: "")
+                obj.id = o[profileView.OBJECT_ID]
+                obj.name = o[profileView.OBJECT_NAME]
+                obj.date = o[profileView.OBJECT_DATE]
+                obj.description = o[profileView.OBJECT_DESCRIPTION]
+                obj.type = o[profileView.OBJECT_TYPE]
+                self.relatedObjectList.append(obj)
+            }
+        } catch{
+            print(error)
+        }
+        
+        var listIdBook: [Int] = []
+        do {
+            let ids = try self.database.prepare(profileView.TABLE_RELATION_BOOK_NOTE.filter(profileView.NOTE_ID==noteId))
+            for i in ids {
+                listIdBook.append(i[profileView.BOOK_ID])
+            }
+        } catch{
+            print(error)
+        }
+        do {
+            let books = try self.database.prepare(profileView.TABLE_BOOK.filter(listIdBook.contains(profileView.BOOK_ID)))
+            for b in books {
+                let bk = Book(name: "", author: "", date: "", description: "")
+                bk.id = b[profileView.BOOK_ID]
+                bk.name = b[profileView.BOOK_NAME]
+                bk.date = b[profileView.BOOK_DATE]
+                bk.description = b[profileView.BOOK_DESCRIPTION]
+                bk.author = b[profileView.BOOK_AUTHOR]
+                self.relatedBookList.append(bk)
+            }
+        } catch{
+            print(error)
+        }
+    }
 }

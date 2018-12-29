@@ -9,8 +9,9 @@
 import UIKit
 import SQLite
 
-class DetailObjectViewController: UIViewController {
-    
+class DetailObjectViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    let tagIdentifier = "relatedTag2Cls"
+    let clsIdentifier = "relatedCls2Cls"
     var database:Connection!
     let profileView = ProfileViewController()
     var idObject = 0
@@ -20,6 +21,12 @@ class DetailObjectViewController: UIViewController {
     @IBOutlet weak var fieldName: UILabel!
     @IBOutlet weak var fieldDate: UILabel!
     @IBOutlet weak var fieldDescription: UILabel!
+    var relatedTagList:[Tag] = []
+    @IBOutlet weak var tagTableView: UITableView!
+    let sectionList = ["Class","Book"]
+    var relatedBookList: [Book] = []
+    var relatedObjectList: [Object] = []
+    @IBOutlet weak var classTableView: UITableView!
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         loadDetails()
@@ -29,6 +36,11 @@ class DetailObjectViewController: UIViewController {
         super.viewDidLoad()
         connextionBD()
         loadDetails()
+        loadRelation()
+        self.tagTableView.delegate = self
+        self.tagTableView.dataSource = self
+        self.classTableView.delegate = self
+        self.classTableView.dataSource = self
     }
     
     func loadDetails() {
@@ -63,7 +75,6 @@ class DetailObjectViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {if segue.identifier == "editClass" {
         let destination = segue.destination as! EditObjectViewController
         destination.idObject = self.idObject
-        print("detail:\(self.idObject)")
         }
     }
     //connexion to BD
@@ -79,4 +90,146 @@ class DetailObjectViewController: UIViewController {
         }
     }
 
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch tableView{
+        case self.tagTableView:
+            return self.relatedTagList.count
+        case self.classTableView:
+            switch sectionList[section] {
+            case "Class" :
+                return self.relatedObjectList.count
+            case "Book" :
+                return self.relatedBookList.count
+            default:
+                return 0
+            }
+        default:
+            return 0
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        switch tableView{
+        case self.tagTableView:
+            let cell = tableView.dequeueReusableCell(withIdentifier: tagIdentifier, for: indexPath)
+            cell.textLabel?.text = relatedTagList[indexPath.row].name
+            return cell
+        case self.classTableView:
+            let cell = tableView.dequeueReusableCell(withIdentifier: clsIdentifier, for: indexPath)
+            switch self.sectionList[indexPath.section] {
+            case "Class" :
+                cell.textLabel?.text = relatedObjectList[indexPath.row].name
+                return cell
+            case "Book" :
+                cell.textLabel?.text = relatedBookList[indexPath.row].name
+                return cell
+            default :
+                cell.textLabel?.text = relatedBookList[indexPath.row].name
+                return cell
+            }
+        default :
+            let cell = tableView.dequeueReusableCell(withIdentifier: clsIdentifier, for: indexPath)
+            cell.textLabel?.text = relatedObjectList[indexPath.row].name
+            return cell
+        }
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        switch tableView{
+        case self.tagTableView:
+            return 1
+        case self.classTableView:
+            return 2
+        default:
+            return 0
+        }
+    }
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) ->
+        String? {
+            switch tableView{
+            case self.tagTableView:
+                return "Tag"
+            case self.classTableView:
+                return "\(self.sectionList[section])"
+            default:
+                return ""
+            }
+    }
+    func loadRelation() {
+        let objId = self.object.id
+        var listIdObj: [Int] = []
+        do {
+            let ids = try self.database.prepare(profileView.TABLE_RELATION_OBJECTS.filter(profileView.RELATION_OBJ1==objId))
+            for i in ids {
+                listIdObj.append(i[profileView.RELATION_OBJ2])
+            }
+        } catch{
+            print(error)
+        }
+        do {
+            let ids = try self.database.prepare(profileView.TABLE_RELATION_OBJECTS.filter(profileView.RELATION_OBJ2==objId))
+            for i in ids {
+                listIdObj.append(i[profileView.RELATION_OBJ1])
+            }
+        } catch{
+            print(error)
+        }
+        do {
+            let objects = try self.database.prepare(profileView.TABLE_OBJECT.filter(listIdObj.contains(profileView.OBJECT_ID)))
+            for o in objects {
+                let obj = Object(name: "", date: "", description: "", type: "")
+                obj.id = o[profileView.OBJECT_ID]
+                obj.name = o[profileView.OBJECT_NAME]
+                obj.date = o[profileView.OBJECT_DATE]
+                obj.description = o[profileView.OBJECT_DESCRIPTION]
+                obj.type = o[profileView.OBJECT_TYPE]
+                self.relatedObjectList.append(obj)
+            }
+        } catch{
+            print(error)
+        }
+        var listIdTag: [Int] = []
+        do {
+            let ids = try self.database.prepare(profileView.TABLE_RELATION_OBJECT_TAG.filter(profileView.OBJECT_ID==objId))
+            for i in ids {
+                listIdTag.append(i[profileView.TAG_ID])
+            }
+        } catch{
+            print(error)
+        }
+        do {
+            let tags = try self.database.prepare(profileView.TABLE_TAG.filter(listIdTag.contains(profileView.TAG_ID)))
+            for t in tags {
+                let tag = Tag(name: "")
+                tag.id = t[profileView.TAG_ID]
+                tag.name = t[profileView.TAG_NAME]
+                self.relatedTagList.append(tag)
+            }
+        } catch{
+            print(error)
+        }
+        var listIdBook: [Int] = []
+        do {
+            let ids = try self.database.prepare(profileView.TABLE_RELATION_OBJECT_BOOK.filter(profileView.OBJECT_ID==objId))
+            for i in ids {
+                listIdBook.append(i[profileView.BOOK_ID])
+            }
+        } catch{
+            print(error)
+        }
+        do {
+            let books = try self.database.prepare(profileView.TABLE_BOOK.filter(listIdBook.contains(profileView.BOOK_ID)))
+            for b in books {
+                let bk = Book(name: "", author: "", date: "", description: "")
+                bk.id = b[profileView.BOOK_ID]
+                bk.name = b[profileView.BOOK_NAME]
+                bk.date = b[profileView.BOOK_DATE]
+                bk.description = b[profileView.BOOK_DESCRIPTION]
+                bk.author = b[profileView.BOOK_AUTHOR]
+                self.relatedBookList.append(bk)
+            }
+        } catch{
+            print(error)
+        }
+    }
 }
