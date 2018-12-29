@@ -148,6 +148,7 @@ class AllClassesTableViewController: UITableViewController {
             default:
                 break
             }
+            deleteObjectRel(id: idDel)
             deleteObject(id: idDel)
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
@@ -171,6 +172,20 @@ class AllClassesTableViewController: UITableViewController {
         placeList = []
         objectList = []
         loadAllClasses()
+    }
+    func deleteObjectRel(id: Int) {
+        let delRelTags = profileView.TABLE_RELATION_OBJECT_TAG.filter(profileView.OBJECT_ID == id)
+        let delRelObjs = profileView.TABLE_RELATION_OBJECT_BOOK.filter(profileView.OBJECT_ID == id)
+        let delRelObjs1 = profileView.TABLE_RELATION_OBJECTS.filter(profileView.RELATION_OBJ1 == id)
+        let delRelObjs2 = profileView.TABLE_RELATION_OBJECTS.filter(profileView.RELATION_OBJ2 == id)
+        do {
+            try self.database.run(delRelTags.delete())
+            try self.database.run(delRelObjs.delete())
+            try self.database.run(delRelObjs1.delete())
+            try self.database.run(delRelObjs2.delete())
+        } catch {
+            print(error)
+        }
     }
 
     /*

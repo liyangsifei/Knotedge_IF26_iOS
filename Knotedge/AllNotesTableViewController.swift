@@ -89,10 +89,21 @@ class AllNotesTableViewController: UITableViewController {
         self.noteList = []
         loadAllNotes()
     }
-
+    func delectNoteRelations(id: Int) {
+        let delRelBoks = profileView.TABLE_RELATION_BOOK_NOTE.filter(profileView.NOTE_ID == id)
+        let delRelObjs = profileView.TABLE_RELATION_OBJECT_NOTE.filter(profileView.NOTE_ID == id)
+        do {
+            try self.database.run(delRelBoks.delete())
+            try self.database.run(delRelObjs.delete())
+        } catch {
+            print(error)
+        }
+    }
+    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            delectNoteRelations(id: noteList[indexPath.row].id)
             deleteNote(id: noteList[indexPath.row].id)
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {

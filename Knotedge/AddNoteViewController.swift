@@ -248,7 +248,6 @@ class AddNoteViewController: UIViewController, UITableViewDelegate, UITableViewD
             let insert = profileView.TABLE_RELATION_OBJECT_NOTE.insert(profileView.NOTE_ID <- idNote, profileView.OBJECT_ID <- obj.id)
             do {
                 try self.database.run(insert)
-                print("note obj inserted")
             } catch {
                 print (error)
             }
@@ -261,7 +260,6 @@ class AddNoteViewController: UIViewController, UITableViewDelegate, UITableViewD
             let insert = profileView.TABLE_RELATION_BOOK_NOTE.insert(profileView.NOTE_ID <- idNote, profileView.BOOK_ID <- book.id)
             do {
                 try self.database.run(insert)
-                print("note book inserted")
             } catch {
                 print (error)
             }

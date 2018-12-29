@@ -72,6 +72,7 @@ class AllBooksTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let idDel = self.bookList[indexPath.row].id
+            deleteBookRel(id: idDel)
             deleteBook(id: idDel)
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
@@ -92,6 +93,16 @@ class AllBooksTableViewController: UITableViewController {
         }
         bookList = []
         loadAllBooks()
+    }
+    func deleteBookRel(id: Int) {
+        let delRelTags = profileView.TABLE_RELATION_BOOK_TAG.filter(profileView.BOOK_ID == id)
+        let delRelObjs = profileView.TABLE_RELATION_OBJECT_BOOK.filter(profileView.BOOK_ID == id)
+        do {
+            try self.database.run(delRelTags.delete())
+            try self.database.run(delRelObjs.delete())
+        } catch {
+            print(error)
+        }
     }
     
     // MARK: - Navigation

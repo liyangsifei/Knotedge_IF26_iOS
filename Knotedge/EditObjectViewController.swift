@@ -402,6 +402,41 @@ class EditObjectViewController: UIViewController, UITableViewDataSource, UITable
     }
     
     func updateRelation() {
-        
+        let delRelTags = profileView.TABLE_RELATION_OBJECT_TAG.filter(profileView.OBJECT_ID == self.idObject)
+        let delRelObjs = profileView.TABLE_RELATION_OBJECT_BOOK.filter(profileView.OBJECT_ID == self.idObject)
+        let delRelObjs1 = profileView.TABLE_RELATION_OBJECTS.filter(profileView.RELATION_OBJ1 == self.idObject)
+        let delRelObjs2 = profileView.TABLE_RELATION_OBJECTS.filter(profileView.RELATION_OBJ2 == self.idObject)
+        do {
+            try self.database.run(delRelTags.delete())
+            try self.database.run(delRelObjs.delete())
+            try self.database.run(delRelObjs1.delete())
+            try self.database.run(delRelObjs2.delete())
+        } catch {
+            print(error)
+        }
+        for tag in selectedTag {
+            let insert = profileView.TABLE_RELATION_OBJECT_TAG.insert(profileView.TAG_ID <- tag.id, profileView.OBJECT_ID <- self.idObject)
+            do {
+                try self.database.run(insert)
+            } catch {
+                print (error)
+            }
+        }
+        for obj in selectedObject {
+            let insert = profileView.TABLE_RELATION_OBJECTS.insert(profileView.RELATION_OBJ1 <- obj.id, profileView.RELATION_OBJ2 <- self.idObject)
+            do {
+                try self.database.run(insert)
+            } catch {
+                print (error)
+            }
+        }
+        for obj in selectedBook {
+            let insert = profileView.TABLE_RELATION_OBJECT_BOOK.insert(profileView.BOOK_ID <- obj.id, profileView.OBJECT_ID <- self.idObject)
+            do {
+                try self.database.run(insert)
+            } catch {
+                print (error)
+            }
+        }
     }
 }

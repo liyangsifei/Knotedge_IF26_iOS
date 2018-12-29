@@ -237,10 +237,9 @@ class EditBookViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func loadSelectedRelation() {
-        let bookId = self.book.id
         var listIdObj: [Int] = []
         do {
-            let ids = try self.database.prepare(profileView.TABLE_RELATION_OBJECT_BOOK.filter(profileView.BOOK_ID==bookId))
+            let ids = try self.database.prepare(profileView.TABLE_RELATION_OBJECT_BOOK.filter(profileView.BOOK_ID==self.idBook))
             for i in ids {
                 listIdObj.append(i[profileView.OBJECT_ID])
             }
@@ -257,14 +256,13 @@ class EditBookViewController: UIViewController, UITableViewDelegate, UITableView
                 obj.description = o[profileView.OBJECT_DESCRIPTION]
                 obj.type = o[profileView.OBJECT_TYPE]
                 self.selectedObject.append(obj)
-                print("relationf ound")
             }
         } catch{
             print(error)
         }
         var listIdTag: [Int] = []
         do {
-            let ids = try self.database.prepare(profileView.TABLE_RELATION_BOOK_TAG.filter(profileView.BOOK_ID==bookId))
+            let ids = try self.database.prepare(profileView.TABLE_RELATION_BOOK_TAG.filter(profileView.BOOK_ID==self.idBook))
             for i in ids {
                 listIdTag.append(i[profileView.TAG_ID])
             }
@@ -278,8 +276,6 @@ class EditBookViewController: UIViewController, UITableViewDelegate, UITableView
                 tag.id = o[profileView.TAG_ID]
                 tag.name = o[profileView.TAG_NAME]
                 self.selectedTag.append(tag)
-                
-                print("relationf ound")
             }
         } catch{
             print(error)
@@ -308,6 +304,29 @@ class EditBookViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
     func updateRelation() {
-        
+        let delRelTags = profileView.TABLE_RELATION_BOOK_TAG.filter(profileView.BOOK_ID == self.idBook)
+        let delRelObjs = profileView.TABLE_RELATION_OBJECT_BOOK.filter(profileView.BOOK_ID == self.idBook)
+        do {
+            try self.database.run(delRelTags.delete())
+            try self.database.run(delRelObjs.delete())
+        } catch {
+            print(error)
+        }
+        for tag in self.selectedTag {
+            let insert = profileView.TABLE_RELATION_BOOK_TAG.insert(profileView.TAG_ID <- tag.id, profileView.BOOK_ID <- self.idBook)
+            do {
+                try self.database.run(insert)
+            } catch {
+                print (error)
+            }
+        }
+        for obj in self.selectedObject {
+            let insert = profileView.TABLE_RELATION_OBJECT_BOOK.insert(profileView.OBJECT_ID <- obj.id, profileView.BOOK_ID <- idBook)
+            do {
+                try self.database.run(insert)
+            } catch {
+                print (error)
+            }
+        }
     }
 }

@@ -64,6 +64,16 @@ class AllTagsTableViewController: UITableViewController {
         tagList = []
         loadAllTags()
     }
+    func deleteTagRel(id: Int) {
+        let delObjs = profileView.TABLE_RELATION_OBJECT_TAG.filter(profileView.TAG_ID == id)
+        let delBooks = profileView.TABLE_RELATION_BOOK_TAG.filter(profileView.TAG_ID == id)
+        do {
+            try self.database.run(delBooks.delete())
+            try self.database.run(delObjs.delete())
+        } catch {
+            print(error)
+        }
+    }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.selectedTagId = tagList[indexPath.row].id
@@ -105,6 +115,7 @@ class AllTagsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let idDel = tagList[indexPath.row].id
+            deleteTagRel(id: idDel)
             deleteTag(id: idDel)
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {

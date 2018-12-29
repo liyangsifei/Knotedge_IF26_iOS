@@ -290,6 +290,29 @@ class EditNoteViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func updateRelation() {
-        
+        let delRelBoks = profileView.TABLE_RELATION_BOOK_NOTE.filter(profileView.NOTE_ID == self.idNote)
+        let delRelObjs = profileView.TABLE_RELATION_OBJECT_NOTE.filter(profileView.NOTE_ID == self.idNote)
+        do {
+            try self.database.run(delRelBoks.delete())
+            try self.database.run(delRelObjs.delete())
+        } catch {
+            print(error)
+        }
+        for obj in selectedObject {
+            let insert = profileView.TABLE_RELATION_OBJECT_NOTE.insert(profileView.NOTE_ID <- idNote, profileView.OBJECT_ID <- obj.id)
+            do {
+                try self.database.run(insert)
+            } catch {
+                print (error)
+            }
+        }
+        for book in selectedBook {
+            let insert = profileView.TABLE_RELATION_BOOK_NOTE.insert(profileView.NOTE_ID <- idNote, profileView.BOOK_ID <- book.id)
+            do {
+                try self.database.run(insert)
+            } catch {
+                print (error)
+            }
+        }
     }
 }

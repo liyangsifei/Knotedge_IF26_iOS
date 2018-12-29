@@ -324,7 +324,6 @@ class AddClassViewController: UIViewController, UIScrollViewDelegate, UITableVie
             let insert = profileView.TABLE_RELATION_BOOK_TAG.insert(profileView.TAG_ID <- tag.id, profileView.BOOK_ID <- idBook)
             do {
                 try self.database.run(insert)
-                print("book tag inserted")
             } catch {
                 print (error)
             }
@@ -337,7 +336,6 @@ class AddClassViewController: UIViewController, UIScrollViewDelegate, UITableVie
             let insert = profileView.TABLE_RELATION_OBJECT_BOOK.insert(profileView.OBJECT_ID <- obj.id, profileView.BOOK_ID <- idBook)
             do {
                 try self.database.run(insert)
-                print("book obj inserted")
             } catch {
                 print (error)
             }
@@ -350,7 +348,6 @@ class AddClassViewController: UIViewController, UIScrollViewDelegate, UITableVie
             let insert = profileView.TABLE_RELATION_OBJECT_TAG.insert(profileView.TAG_ID <- tag.id, profileView.OBJECT_ID <- idObj)
             do {
                 try self.database.run(insert)
-                print("obj tag inserted")
             } catch {
                 print (error)
             }
@@ -363,7 +360,6 @@ class AddClassViewController: UIViewController, UIScrollViewDelegate, UITableVie
             let insert = profileView.TABLE_RELATION_OBJECTS.insert(profileView.RELATION_OBJ1 <- obj.id, profileView.RELATION_OBJ2 <- idObj)
             do {
                 try self.database.run(insert)
-                print("obj obj inserted")
             } catch {
                 print (error)
             }
