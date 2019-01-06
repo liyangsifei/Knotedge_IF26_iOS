@@ -17,6 +17,7 @@
 		912D7B7E21D54FBC00481E8E /* DetailNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 912D7B7D21D54FBC00481E8E /* DetailNoteViewController.swift */; };
 		912D7B8021D54FC600481E8E /* EditNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 912D7B7F21D54FC600481E8E /* EditNoteViewController.swift */; };
 		9147D8A921D3AC6D00E4D73B /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9147D8A821D3AC6D00E4D73B /* EditProfileViewController.swift */; };
+		9178643C21E24794001730C6 /* ViewByViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9178643B21E24794001730C6 /* ViewByViewController.swift */; };
 		9190972F21C52C76008BC4EA /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9190972E21C52C76008BC4EA /* SQLite.framework */; };
 		9190973121C5851F008BC4EA /* Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9190973021C5851F008BC4EA /* Object.swift */; };
 		9190973321C5852E008BC4EA /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9190973221C5852E008BC4EA /* Person.swift */; };
@@ -80,6 +81,7 @@
 		912D7B7D21D54FBC00481E8E /* DetailNoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailNoteViewController.swift; sourceTree = "<group>"; };
 		912D7B7F21D54FC600481E8E /* EditNoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditNoteViewController.swift; sourceTree = "<group>"; };
 		9147D8A821D3AC6D00E4D73B /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
+		9178643B21E24794001730C6 /* ViewByViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewByViewController.swift; sourceTree = "<group>"; };
 		9190972B21C52B7D008BC4EA /* SQLite.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = SQLite.framework.dSYM; path = Carthage/Build/iOS/SQLite.framework.dSYM; sourceTree = "<group>"; };
 		9190972E21C52C76008BC4EA /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = Carthage/Build/iOS/SQLite.framework; sourceTree = "<group>"; };
 		9190973021C5851F008BC4EA /* Object.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Object.swift; sourceTree = "<group>"; };
@@ -204,6 +206,7 @@
 				912D7B7F21D54FC600481E8E /* EditNoteViewController.swift */,
 				91F2D10821D607AF004737C9 /* AllNotesTableViewController.swift */,
 				91F2D10A21D607F1004737C9 /* AllTagsTableViewController.swift */,
+				9178643B21E24794001730C6 /* ViewByViewController.swift */,
 			);
 			path = Knotedge;
 			sourceTree = "<group>";
@@ -385,6 +388,7 @@
 				91F2D10921D607AF004737C9 /* AllNotesTableViewController.swift in Sources */,
 				9190973921C58626008BC4EA /* Profile.swift in Sources */,
 				912D7B7E21D54FBC00481E8E /* DetailNoteViewController.swift in Sources */,
+				9178643C21E24794001730C6 /* ViewByViewController.swift in Sources */,
 				91A6728721A4082500808C1A /* AppDelegate.swift in Sources */,
 				91F20DE221C95C4500861A5E /* ProfileViewController.swift in Sources */,
 				912D7B7C21D54FB300481E8E /* EditObjectViewController.swift in Sources */,
