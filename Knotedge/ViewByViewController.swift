@@ -35,6 +35,9 @@ class ViewByViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var objIdList: [Int] = []
     var bookIdList: [Int] = []
     
+    var selectedObjId = 0
+    var selectedBookId = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         connextionBD()
@@ -45,6 +48,7 @@ class ViewByViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.tagPicker.delegate = self
         self.tagPicker.dataSource = self
         loadAllTags()
+        initTagSelect()
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -70,6 +74,8 @@ class ViewByViewController: UIViewController, UITableViewDelegate, UITableViewDa
         } catch{
             print(error)
         }
+    }
+    func initTagSelect(){
         if(allTagList.count > 0){
             self.tagSelected = allTagList[0]
             self.reloadTableTagChanged()
@@ -98,12 +104,12 @@ class ViewByViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func reloadTableOrderChanged() {
         switch self.orderSelected {
         case 0:
-            self.classList = self.classList.sorted(by: { $0.date.suffix(4) > $1.date.suffix(4)})
-            self.bookList = self.bookList.sorted(by: { $0.date.suffix(4) > $1.date.suffix(4)})
-            self.personList = self.personList.sorted(by: { $0.date.suffix(4) > $1.date.suffix(4)})
-            self.eventList = self.eventList.sorted(by: { $0.date.suffix(4) > $1.date.suffix(4)})
-            self.placeList = self.placeList.sorted(by: { $0.date.suffix(4) > $1.date.suffix(4)})
-            self.objectList = self.objectList.sorted(by: { $0.date.suffix(4) > $1.date.suffix(4)})
+            self.classList = self.classList.sorted(by: { $0.date > $1.date})
+            self.bookList = self.bookList.sorted(by: { $0.date > $1.date})
+            self.personList = self.personList.sorted(by: { $0.date > $1.date})
+            self.eventList = self.eventList.sorted(by: { $0.date > $1.date})
+            self.placeList = self.placeList.sorted(by: { $0.date > $1.date})
+            self.objectList = self.objectList.sorted(by: { $0.date > $1.date})
         case 1:
             self.classList = self.classList.sorted(by: { $0.name < $1.name})
             self.bookList = self.bookList.sorted(by: { $0.name < $1.name})
@@ -264,27 +270,52 @@ class ViewByViewController: UIViewController, UITableViewDelegate, UITableViewDa
         switch self.typeSelected {
         case 0:
             cell.textLabel?.text = self.classList[indexPath.row].name
-            cell.detailTextLabel?.text = self.classList[indexPath.row].date
+            cell.detailTextLabel?.text = self.getDateFormat(date: self.classList[indexPath.row].date)
         case 1:
             cell.textLabel?.text = self.bookList[indexPath.row].name
-            cell.detailTextLabel?.text = self.bookList[indexPath.row].date
+            cell.detailTextLabel?.text = self.getDateFormat(date: self.bookList[indexPath.row].date)
         case 2:
             cell.textLabel?.text = self.personList[indexPath.row].name
-            cell.detailTextLabel?.text = self.personList[indexPath.row].date
+            cell.detailTextLabel?.text = self.getDateFormat(date: self.personList[indexPath.row].date)
         case 3:
             cell.textLabel?.text = self.eventList[indexPath.row].name
-            cell.detailTextLabel?.text = self.eventList[indexPath.row].date
+            cell.detailTextLabel?.text = self.getDateFormat(date: self.eventList[indexPath.row].date)
         case 4:
             cell.textLabel?.text = self.placeList[indexPath.row].name
-            cell.detailTextLabel?.text = self.placeList[indexPath.row].date
+            cell.detailTextLabel?.text = self.getDateFormat(date: self.placeList[indexPath.row].date)
         case 5:
             cell.textLabel?.text = self.objectList[indexPath.row].name
-            cell.detailTextLabel?.text = self.objectList[indexPath.row].date
+            cell.detailTextLabel?.text = self.getDateFormat(date: self.objectList[indexPath.row].date)
         default:
             cell.textLabel?.text = self.classList[indexPath.row].name
-            cell.detailTextLabel?.text = self.classList[indexPath.row].date
+            cell.detailTextLabel?.text = self.getDateFormat(date: self.classList[indexPath.row].date)
         }
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch self.typeSelected {
+        case 0:
+            self.selectedObjId = self.classList[indexPath.row].id
+            performSegue(withIdentifier: "detailClass", sender: self)
+        case 1:
+            self.selectedBookId = self.bookList[indexPath.row].id
+            performSegue(withIdentifier: "detailBook", sender: self)
+        case 2:
+            self.selectedObjId = self.personList[indexPath.row].id
+            performSegue(withIdentifier: "detailClass", sender: self)
+        case 3:
+            self.selectedObjId = self.eventList[indexPath.row].id
+            performSegue(withIdentifier: "detailClass", sender: self)
+        case 4:
+            self.selectedObjId = self.placeList[indexPath.row].id
+            performSegue(withIdentifier: "detailClass", sender: self)
+        case 5:
+            self.selectedObjId = self.objectList[indexPath.row].id
+            performSegue(withIdentifier: "detailClass", sender: self)
+        default:
+            break
+        }
     }
     
     @IBOutlet weak var searchBar: UISearchBar!
@@ -343,4 +374,24 @@ class ViewByViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
     }
     
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "detailClass" {
+            let destination = segue.destination as! DetailObject2ViewController
+            destination.idObject = self.selectedObjId
+        } else if segue.identifier == "detailBook" {
+            let destination = segue.destination as! DetailBook2ViewController
+            destination.idBook = self.selectedBookId
+        }
+    }
+    
+    func getDateFormat(date: String) -> String{
+        let indexYear = date.index(date.startIndex, offsetBy: 4)
+        let indexDay = date.index(date.startIndex, offsetBy: 8)
+        let indexMonth1 = date.index(date.startIndex, offsetBy: 5)
+        let indexMonth2 = date.index(date.startIndex, offsetBy: 6)
+        let newDate = "\(date[indexDay...])/\(date[indexMonth1...indexMonth2])/\(date[..<indexYear])"
+        return newDate
+    }
 }

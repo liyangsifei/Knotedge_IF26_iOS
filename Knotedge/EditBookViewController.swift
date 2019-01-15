@@ -82,7 +82,7 @@ class EditBookViewController: UIViewController, UITableViewDelegate, UITableView
     }
     @IBAction func dateChanged(_ sender: UIDatePicker) {
         let formatter = DateFormatter()
-        formatter.dateFormat = "dd/MM/yyyy"
+        formatter.dateFormat = "yyyy-MM-dd"
         self.btnDate.setTitle(formatter.string(from: datePicker.date), for: UIControl.State.normal)
         self.dateSelected = datePicker.date
     }

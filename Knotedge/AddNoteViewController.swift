@@ -52,7 +52,7 @@ class AddNoteViewController: UIViewController, UITableViewDelegate, UITableViewD
         let content = textField.text!
         let date = NSDate()
         let dateFormat = DateFormatter()
-        dateFormat.dateFormat = "dd/MM/yyyy"
+        dateFormat.dateFormat = "yyyy-MM-dd"
         let currentDate = dateFormat.string(from: date as Date) as String
         
         let insert = profileView.TABLE_NOTE.insert(profileView.NOTE_TITLE <- title, profileView.NOTE_CONTENT <- content, profileView.NOTE_CREATE_DATE <- currentDate, profileView.NOTE_EDIT_DATE <- currentDate)

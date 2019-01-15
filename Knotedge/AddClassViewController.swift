@@ -122,7 +122,7 @@ class AddClassViewController: UIViewController, UIScrollViewDelegate, UITableVie
     }
     @IBAction func dateChanged(_ sender: UIDatePicker) {
         let formatter = DateFormatter()
-        formatter.dateFormat = "dd/MM/yyyy"
+        formatter.dateFormat = "yyyy-MM-dd"
         self.btnDate.setTitle(formatter.string(from: datePicker.date), for: UIControl.State.normal)
         self.dateSelected = datePicker.date
     }
@@ -370,5 +370,13 @@ class AddClassViewController: UIViewController, UIScrollViewDelegate, UITableVie
                 print (error)
             }
         }
+    }
+    func getDateFormat(date: String) -> String{
+        let indexYear = date.index(date.startIndex, offsetBy: 4)
+        let indexDay = date.index(date.startIndex, offsetBy: 8)
+        let indexMonth1 = date.index(date.startIndex, offsetBy: 5)
+        let indexMonth2 = date.index(date.startIndex, offsetBy: 6)
+        let newDate = "\(date[indexDay...])/\(date[indexMonth1...indexMonth2])/\(date[..<indexYear])"
+        return newDate
     }
 }

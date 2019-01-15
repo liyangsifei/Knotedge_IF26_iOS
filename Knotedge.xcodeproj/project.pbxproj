@@ -34,6 +34,8 @@
 		91A6729121A4082700808C1A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 91A6728F21A4082700808C1A /* LaunchScreen.storyboard */; };
 		91A6729C21A4082800808C1A /* KnotedgeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A6729B21A4082800808C1A /* KnotedgeTests.swift */; };
 		91A672A721A4082800808C1A /* KnotedgeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A672A621A4082800808C1A /* KnotedgeUITests.swift */; };
+		91D4F49421EDF9F900E9BD27 /* DetailObject2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D4F49321EDF9F900E9BD27 /* DetailObject2ViewController.swift */; };
+		91D4F49621EDFA0900E9BD27 /* DetailBook2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D4F49521EDFA0900E9BD27 /* DetailBook2ViewController.swift */; };
 		91EE784021C049D300646ECE /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91EE783F21C049D300646ECE /* Note.swift */; };
 		91F20DE221C95C4500861A5E /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F20DE121C95C4500861A5E /* ProfileViewController.swift */; };
 		91F2D10921D607AF004737C9 /* AllNotesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F2D10821D607AF004737C9 /* AllNotesTableViewController.swift */; };
@@ -105,6 +107,8 @@
 		91A672A221A4082800808C1A /* KnotedgeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KnotedgeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		91A672A621A4082800808C1A /* KnotedgeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnotedgeUITests.swift; sourceTree = "<group>"; };
 		91A672A821A4082800808C1A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		91D4F49321EDF9F900E9BD27 /* DetailObject2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailObject2ViewController.swift; sourceTree = "<group>"; };
+		91D4F49521EDFA0900E9BD27 /* DetailBook2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailBook2ViewController.swift; sourceTree = "<group>"; };
 		91EE783F21C049D300646ECE /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
 		91F20DE121C95C4500861A5E /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		91F2D10821D607AF004737C9 /* AllNotesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllNotesTableViewController.swift; sourceTree = "<group>"; };
@@ -207,6 +211,8 @@
 				91F2D10821D607AF004737C9 /* AllNotesTableViewController.swift */,
 				91F2D10A21D607F1004737C9 /* AllTagsTableViewController.swift */,
 				9178643B21E24794001730C6 /* ViewByViewController.swift */,
+				91D4F49321EDF9F900E9BD27 /* DetailObject2ViewController.swift */,
+				91D4F49521EDFA0900E9BD27 /* DetailBook2ViewController.swift */,
 			);
 			path = Knotedge;
 			sourceTree = "<group>";
@@ -387,9 +393,11 @@
 				9190973321C5852E008BC4EA /* Person.swift in Sources */,
 				91F2D10921D607AF004737C9 /* AllNotesTableViewController.swift in Sources */,
 				9190973921C58626008BC4EA /* Profile.swift in Sources */,
+				91D4F49621EDFA0900E9BD27 /* DetailBook2ViewController.swift in Sources */,
 				912D7B7E21D54FBC00481E8E /* DetailNoteViewController.swift in Sources */,
 				9178643C21E24794001730C6 /* ViewByViewController.swift in Sources */,
 				91A6728721A4082500808C1A /* AppDelegate.swift in Sources */,
+				91D4F49421EDF9F900E9BD27 /* DetailObject2ViewController.swift in Sources */,
 				91F20DE221C95C4500861A5E /* ProfileViewController.swift in Sources */,
 				912D7B7C21D54FB300481E8E /* EditObjectViewController.swift in Sources */,
 				9190973121C5851F008BC4EA /* Object.swift in Sources */,

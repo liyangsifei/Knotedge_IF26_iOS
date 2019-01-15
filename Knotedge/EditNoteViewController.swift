@@ -78,7 +78,7 @@ class EditNoteViewController: UIViewController, UITableViewDataSource, UITableVi
     func updateNote() {
         let date = NSDate()
         let dateFormat = DateFormatter()
-        dateFormat.dateFormat = "dd/MM/yyyy"
+        dateFormat.dateFormat = "yyyy-MM-dd"
         let currentDate = dateFormat.string(from: date as Date) as String
         
         let sql = profileView.TABLE_NOTE.filter(profileView.NOTE_ID == self.idNote)
