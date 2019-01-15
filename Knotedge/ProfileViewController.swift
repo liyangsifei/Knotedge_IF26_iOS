@@ -68,8 +68,11 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         connextionBD()
-        createTables()
-        setDefaultUser()
+        if tableExist ==  false {
+            tableExist = true
+            createTables()
+            setDefaultUser()
+        }
         counts()
     }
     override func viewDidAppear(_ animated: Bool) {

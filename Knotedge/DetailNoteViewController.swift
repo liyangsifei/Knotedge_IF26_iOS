@@ -26,12 +26,15 @@ class DetailNoteViewController: UIViewController, UITableViewDataSource,UITableV
     @IBOutlet weak var classTableView: UITableView!
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        loadDetails()
+        loadRelatedClass()
+        self.reloadTable(table: classTableView)
     }
     override func viewDidLoad() {
         super.viewDidLoad()
         connextionBD()
         loadDetails()
-        loadRelatedClass()
+        //loadRelatedClass()
         classTableView.dataSource = self
         classTableView.delegate = self
     }
@@ -116,6 +119,8 @@ class DetailNoteViewController: UIViewController, UITableViewDataSource,UITableV
     }
     
     func loadRelatedClass() {
+        self.relatedObjectList = []
+        self.relatedBookList = []
         let noteId = self.note.id
         var listIdObj: [Int] = []
         do {
@@ -164,5 +169,10 @@ class DetailNoteViewController: UIViewController, UITableViewDataSource,UITableV
         } catch{
             print(error)
         }
+    }
+    func reloadTable(table tableView: UITableView){
+        tableView.reloadData()
+        tableView.layoutSubviews()
+        tableView.layoutIfNeeded()
     }
 }

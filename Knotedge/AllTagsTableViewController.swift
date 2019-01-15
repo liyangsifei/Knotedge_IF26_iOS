@@ -21,13 +21,7 @@ class AllTagsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         connextionBD()
-        loadAllTags() 
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        loadAllTags()
     }
 
     // MARK: - Table view data source
@@ -124,6 +118,7 @@ class AllTagsTableViewController: UITableViewController {
     }
     
     func loadAllTags() {
+        self.tagList = []
         do {
             let list = try self.database.prepare(profileView.TABLE_TAG)
             for item in list {

@@ -31,13 +31,18 @@ class DetailBookViewController: UIViewController, UITableViewDataSource, UITable
     @IBOutlet weak var noteTableView: UITableView!
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        loadDetails()
+        loadRelation()
+        self.reloadTable(table: tagTableView)
+        self.reloadTable(table: classTableView)
+        self.reloadTable(table: noteTableView)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         connextionBD()
         loadDetails()
-        loadRelation()
+        //loadRelation()
         self.tagTableView.delegate = self
         self.tagTableView.dataSource = self
         self.classTableView.delegate = self
@@ -154,6 +159,9 @@ class DetailBookViewController: UIViewController, UITableViewDataSource, UITable
         }
     }
     func loadRelation() {
+        self.relatedTagList = []
+        self.relatedNoteList = []
+        self.relatedClassList = []
         let bookId = self.book.id
         var listIdObj: [Int] = []
         do {
@@ -221,6 +229,11 @@ class DetailBookViewController: UIViewController, UITableViewDataSource, UITable
         } catch{
             print(error)
         }
+    }
+    func reloadTable(table tableView: UITableView){
+        tableView.reloadData()
+        tableView.layoutSubviews()
+        tableView.layoutIfNeeded()
     }
     
 }

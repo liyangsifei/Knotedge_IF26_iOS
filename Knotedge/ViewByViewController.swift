@@ -46,6 +46,12 @@ class ViewByViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.tagPicker.dataSource = self
         loadAllTags()
     }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        loadAllTags()
+        reloadTable()
+        self.tagPicker.reloadAllComponents()
+    }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(false)
@@ -288,7 +294,11 @@ class ViewByViewController: UIViewController, UITableViewDelegate, UITableViewDa
         toolBar.setItems(toolbarButtonItem as? [UIBarButtonItem], animated: true);
     }
     @IBAction func actionTagBarItem(_ sender: UIBarButtonItem) {
-        tagPicker.isHidden = false
+        if tagPicker.isHidden == false {
+            tagPicker.isHidden = true
+        } else {
+            tagPicker.isHidden = false
+        }
     }
     
     

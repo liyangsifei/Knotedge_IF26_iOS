@@ -33,13 +33,17 @@ class DetailObjectViewController: UIViewController, UITableViewDataSource, UITab
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         loadDetails()
+        loadRelation()
+        self.reloadTable(table: tagTableView)
+        self.reloadTable(table: classTableView)
+        self.reloadTable(table: noteTableView)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         connextionBD()
         loadDetails()
-        loadRelation()
+        //loadRelation()
         self.tagTableView.delegate = self
         self.tagTableView.dataSource = self
         self.classTableView.delegate = self
@@ -171,6 +175,10 @@ class DetailObjectViewController: UIViewController, UITableViewDataSource, UITab
             }
     }
     func loadRelation() {
+        self.relatedNoteList = []
+        self.relatedTagList = []
+        self.relatedBookList = []
+        self.relatedObjectList = []
         let objId = self.object.id
         var listIdNote: [Int] = []
         do {
@@ -269,5 +277,10 @@ class DetailObjectViewController: UIViewController, UITableViewDataSource, UITab
         } catch{
             print(error)
         }
+    }
+    func reloadTable(table tableView: UITableView){
+        tableView.reloadData()
+        tableView.layoutSubviews()
+        tableView.layoutIfNeeded()
     }
 }
