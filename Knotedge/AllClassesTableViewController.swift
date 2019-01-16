@@ -32,6 +32,7 @@ class AllClassesTableViewController: UITableViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         loadAllClasses()
+        self.tableView.reloadData()
     }
     
     override func viewDidLoad() {
@@ -200,6 +201,11 @@ class AllClassesTableViewController: UITableViewController {
     
 
     func loadAllClasses() {
+        self.allClassList = []
+        self.personList = []
+        self.placeList = []
+        self.eventList = []
+        self.objectList = []
         do {
             let list = try self.database.prepare(profileView.TABLE_OBJECT)
             var type = ""

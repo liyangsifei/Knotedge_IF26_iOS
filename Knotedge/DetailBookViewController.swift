@@ -18,6 +18,7 @@ class DetailBookViewController: UIViewController, UITableViewDataSource, UITable
     let profileView = ProfileViewController()
     var idBook = 0
     var book: Book = Book(name: "", author: "", date: "", description: "")
+    var idNote = 0
 
     @IBOutlet weak var fieldName: UILabel!
     @IBOutlet weak var fieldAuthor: UILabel!
@@ -77,15 +78,6 @@ class DetailBookViewController: UIViewController, UITableViewDataSource, UITable
     }
     
     
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "editBook" {
-            let destination = segue.destination as! EditBookViewController
-            destination.idBook = self.idBook
-        }
-    }
     
     //connexion to BD
     func connextionBD () {
@@ -236,4 +228,26 @@ class DetailBookViewController: UIViewController, UITableViewDataSource, UITable
         tableView.layoutIfNeeded()
     }
     
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch tableView {
+        case self.noteTableView :
+            self.idNote = relatedNoteList[indexPath.row].id
+            performSegue(withIdentifier: "detailNote", sender: self)
+        default:
+            break
+        }
+    }
+    // MARK: - Navigation
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "editBook" {
+            let destination = segue.destination as! EditBookViewController
+            destination.idBook = self.idBook
+        } else if segue.identifier == "detailNote" {
+            let destination = segue.destination as! DetailNoteViewController
+            destination.idNote = self.idNote
+        }
+    }
 }

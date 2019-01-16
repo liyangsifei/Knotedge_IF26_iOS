@@ -637,6 +637,7 @@
                         <outlet property="noteTableView" destination="3E6-eR-e07" id="eaW-97-qSO"/>
                         <outlet property="tagTableView" destination="bmG-uP-JIM" id="D9i-sk-Yso"/>
                         <segue destination="9nl-gq-2GJ" kind="show" identifier="editClass" id="iec-Gp-aJb"/>
+                        <segue destination="WdY-2M-uOF" kind="show" identifier="detailNote" id="QQU-QI-T7i"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zIu-LP-Jbs" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1054,7 +1055,7 @@
                                 </prototypes>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TjO-aM-Xtn">
-                                <rect key="frame" x="16" y="78" width="216" height="21"/>
+                                <rect key="frame" x="16" y="78" width="343" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <nil key="textColor"/>
@@ -1080,11 +1081,12 @@
                         <outlet property="noteTableView" destination="lG3-IZ-OMZ" id="c41-Nn-gyO"/>
                         <outlet property="tagTableView" destination="fOf-Sm-h90" id="DYJ-Kp-BOn"/>
                         <segue destination="8w1-JH-LTP" kind="show" identifier="editBook" id="FQY-jA-4FZ"/>
+                        <segue destination="WdY-2M-uOF" kind="show" identifier="detailNote" id="LcE-O8-hwP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WqF-lt-abx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2246" y="-190"/>
+            <point key="canvasLocation" x="2234" y="-190"/>
         </scene>
         <!--Main Tab Bar Controller-->
         <scene sceneID="FUd-ax-HBg">
@@ -1149,6 +1151,9 @@
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="endEditName:" destination="WHX-Hp-P4a" eventType="editingDidEnd" id="nhk-Km-yHx"/>
+                                </connections>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="e1w-mp-1Lb">
                                 <rect key="frame" x="206" y="406" width="97" height="30"/>
@@ -1156,6 +1161,9 @@
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="endEditSurname:" destination="WHX-Hp-P4a" eventType="editingDidEnd" id="iZ9-bG-dSs"/>
+                                </connections>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Pk9-Tj-gD9">
                                 <rect key="frame" x="206" y="452" width="97" height="30"/>
@@ -1163,24 +1171,20 @@
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="endEditEmail:" destination="WHX-Hp-P4a" eventType="editingDidEnd" id="P9S-hQ-v3N"/>
+                                </connections>
                             </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="oxJ-iC-jHf"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Edit Profile" id="YPh-ZY-okK">
-                        <barButtonItem key="rightBarButtonItem" image="paper_plane" id="w5O-v8-ufR">
-                            <connections>
-                                <action selector="saveBarItemAction:" destination="WHX-Hp-P4a" id="YRk-el-8JA"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Edit Profile" id="YPh-ZY-okK"/>
                     <connections>
                         <outlet property="fieldEmail" destination="Pk9-Tj-gD9" id="ywm-pv-6Ee"/>
                         <outlet property="fieldName" destination="nuo-pt-zjO" id="rey-RN-seV"/>
                         <outlet property="fieldPhotoBtn" destination="Gxq-el-XLv" id="5tI-fM-kwd"/>
                         <outlet property="fieldSurname" destination="e1w-mp-1Lb" id="s3P-se-ma7"/>
-                        <segue destination="cZp-0p-4JT" kind="show" identifier="back2profile" id="uTf-f4-wpN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MtH-6D-gDv" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1659,6 +1663,7 @@
         <image name="trash" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="gAf-eR-T5x"/>
+        <segue reference="vzf-wc-SB4"/>
+        <segue reference="LcE-O8-hwP"/>
     </inferredMetricsTieBreakers>
 </document>

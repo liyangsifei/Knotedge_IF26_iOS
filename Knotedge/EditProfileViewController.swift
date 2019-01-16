@@ -45,22 +45,39 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         loadPhotoAlert()
     }
     
-    @IBAction func saveBarItemAction(_ sender: UIBarButtonItem) {
-        updateProfile()
-        performSegue(withIdentifier: "back2profile", sender: self)
+    @IBAction func endEditName(_ sender: UITextField) {
+        let sql = profileView.TABLE_PROFILE.filter(profileView.PROFILE_ID == profileId)
+        let newName = fieldName.text!
+        do {
+            try self.database.run(sql.update(profileView.PROFILE_LAST_NAME <- newName))
+        } catch {
+            print(error)
+        }
+    }
+    @IBAction func endEditSurname(_ sender: UITextField) {
+        let sql = profileView.TABLE_PROFILE.filter(profileView.PROFILE_ID == profileId)
+        let newSurname = fieldSurname.text!
+        do {
+            try self.database.run(sql.update(profileView.PROFILE_FIRST_NAME <- newSurname))
+        } catch {
+            print(error)
+        }
+    }
+    @IBAction func endEditEmail(_ sender: UITextField) {
+        let sql = profileView.TABLE_PROFILE.filter(profileView.PROFILE_ID == profileId)
+        let newEmail = fieldEmail.text!
+        do {
+            try self.database.run(sql.update(profileView.PROFILE_EMAIL <- newEmail))
+        } catch {
+            print(error)
+        }
     }
     //Edit profile to BD
-    func updateProfile() {
+    func updatePhoto() {
         let imgData:NSData = self.image.pngData()! as NSData
         let strBase64:String = imgData.base64EncodedString(options: .lineLength64Characters)
         let sql = profileView.TABLE_PROFILE.filter(profileView.PROFILE_ID == profileId)
-        let newName = fieldName.text!
-        let newSurname = fieldSurname.text!
-        let newEmail = fieldEmail.text!
         do {
-            try self.database.run(sql.update(profileView.PROFILE_LAST_NAME <- newName))
-            try self.database.run(sql.update(profileView.PROFILE_FIRST_NAME <- newSurname))
-            try self.database.run(sql.update(profileView.PROFILE_EMAIL <- newEmail))
             try self.database.run(sql.update(profileView.PROFILE_PHOTO <- strBase64))
         } catch {
             print(error)
@@ -97,6 +114,7 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
             fieldPhotoBtn.setBackgroundImage(self.image, for: UIControl.State.normal)
         }
         dismiss(animated: true, completion: nil)
+        updatePhoto()
     }
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
@@ -166,7 +184,6 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         let controller = UIAlertController()
         
         controller.title = "Select"
-        //controller.message = ""
         
         let libraryAction = UIAlertAction(title: "Import photo from library", style: UIAlertAction.Style.default) {
             action in controller.dismiss(animated: true, completion: nil)
@@ -193,11 +210,5 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         controller.addAction(shareAction)
         controller.addAction(cancelAction)
         present(controller, animated: true, completion: nil)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "back2profile" {
-            //_ = segue.destination as! MainTabBarController
-        }
     }
 }

@@ -36,6 +36,7 @@ class AddClassViewController: UIViewController, UIScrollViewDelegate, UITableVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.datePicker.backgroundColor = UIColor.init(red: 255, green: 255, blue: 255, alpha: 1)
         connextionBD()
         configureToolBar()
         loadAllTags()

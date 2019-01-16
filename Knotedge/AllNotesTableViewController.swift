@@ -28,6 +28,11 @@ class AllNotesTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        loadAllNotes()
+        self.tableView.reloadData()
+    }
 
     // MARK: - Table view data source
 
@@ -56,6 +61,7 @@ class AllNotesTableViewController: UITableViewController {
     }
     
     func loadAllNotes() {
+        self.noteList = []
         do {
             let notes = try self.database.prepare(profileView.TABLE_NOTE)
             for item in notes {

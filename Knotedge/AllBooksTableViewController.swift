@@ -21,7 +21,8 @@ class AllBooksTableViewController: UITableViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        //loadAllBooks()
+        loadAllBooks()
+        self.tableView.reloadData()
     }
     
     override func viewDidLoad() {
@@ -116,6 +117,7 @@ class AllBooksTableViewController: UITableViewController {
     }
     
     func loadAllBooks() {
+        self.bookList = []
         do {
             let list = try self.database.prepare(profileView.TABLE_BOOK)
             for item in list {

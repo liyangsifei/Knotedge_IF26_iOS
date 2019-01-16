@@ -17,6 +17,7 @@ class DetailObjectViewController: UIViewController, UITableViewDataSource, UITab
     let profileView = ProfileViewController()
     var idObject = 0
     var object = Object(name: "", date: "", description: "", type: "")
+    var idNote = 0
 
     @IBOutlet weak var fieldType: UILabel!
     @IBOutlet weak var fieldName: UILabel!
@@ -77,15 +78,6 @@ class DetailObjectViewController: UIViewController, UITableViewDataSource, UITab
         performSegue(withIdentifier: "editClass", sender: self)
     }
     
-    
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {if segue.identifier == "editClass" {
-        let destination = segue.destination as! EditObjectViewController
-        destination.idObject = self.idObject
-        }
-    }
     //connexion to BD
     func connextionBD () {
         do {
@@ -282,5 +274,28 @@ class DetailObjectViewController: UIViewController, UITableViewDataSource, UITab
         tableView.reloadData()
         tableView.layoutSubviews()
         tableView.layoutIfNeeded()
+    }
+    
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch tableView {
+        case self.noteTableView :
+            self.idNote = relatedNoteList[indexPath.row].id
+            performSegue(withIdentifier: "detailNote", sender: self)
+        default:
+            break
+        }
+    }
+    
+    // MARK: - Navigation
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {if segue.identifier == "editClass" {
+        let destination = segue.destination as! EditObjectViewController
+        destination.idObject = self.idObject
+    } else if segue.identifier == "detailNote" {
+        let destination = segue.destination as! DetailNoteViewController
+        destination.idNote = self.idNote
+        }
     }
 }
